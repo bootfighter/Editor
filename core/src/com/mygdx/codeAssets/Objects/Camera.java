@@ -8,16 +8,17 @@ public class Camera {
 	
 	public Vector3 camPosition;
 	private Vector2 moveDir;
+	
+	boolean isMoving = false;
+	
 	int moveSpeed = 16;
 	
 	public Camera() {
-		camPosition = new Vector3(0, 0, 0);
+		camPosition = new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 		moveDir = new Vector2(0, 0);
 	}
 	
 	public Vector3 getPosition() {
-		//camPosition.x = moveDir.x * moveSpeed * Gdx.graphics.getDeltaTime();
-		//camPosition.y = moveDir.y * moveSpeed * Gdx.graphics.getDeltaTime();
 		return camPosition;
 	}
 	
@@ -33,8 +34,10 @@ public class Camera {
 		moveDir.y = a_y;
 	}
 	
-	public void update() {
-		
+	public void update(int a_screenX, int a_screenY, float a_zoom) {
+		camPosition.x += a_screenX * a_zoom / 2; 
+		camPosition.y -= a_screenY * a_zoom / 2;
+		System.out.println("   pos:" + camPosition.x + " " + camPosition.y);
 	}
 	
 	

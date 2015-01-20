@@ -53,7 +53,7 @@ public class RenderHandler {
 	public boolean isDebug;
 
 	public void zoom(int a_deltaZoom) {
-		if (orthoCamera.zoom + a_deltaZoom * 0.1f <= 1.3f && orthoCamera.zoom + a_deltaZoom * 0.1f >= 0.2f) {
+		if (orthoCamera.zoom + a_deltaZoom * 0.1f <= 4.0f && orthoCamera.zoom + a_deltaZoom * 0.1f >= 0.2f) {
 			orthoCamera.zoom += a_deltaZoom * 0.1f;
 		}
 	}
@@ -68,8 +68,8 @@ public class RenderHandler {
 	public void draw() {
 		
 		
-
-		//orthoCamera.position.set(new Vector2(camera.camPosition.x, camera.camPosition.y), 0f);
+		
+		orthoCamera.position.set(new Vector2(camera.camPosition.x, camera.camPosition.y), 0f);
 		orthoCamera.update();
 		currentMap = mapHandler.getCurrentMap();
 		

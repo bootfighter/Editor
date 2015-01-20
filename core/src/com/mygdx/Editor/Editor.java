@@ -1,5 +1,8 @@
 package com.mygdx.Editor;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.codeAssets.Handlers.EventHandler;
 import com.mygdx.codeAssets.Handlers.MapHandler;
 import com.mygdx.codeAssets.Handlers.RenderHandler;
+import com.mygdx.codeAssets.Handlers.TileHandler;
 import com.mygdx.codeAssets.Objects.Camera;
 
 
@@ -17,6 +21,7 @@ public class Editor extends ApplicationAdapter {
 	MapHandler mapHandler;
 	RenderHandler renderHandler;
 	EventHandler eventHandler;
+	TileHandler tileHandler;
 	Camera camera;
 	
 	
@@ -24,10 +29,19 @@ public class Editor extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-				
+		camera = new Camera();		
+		
+		try {
+			tileHandler = new TileHandler(new File("../core/assets/tiles.txt"));
+		} catch (IOException e) {
+			System.out.println("No Tiles.txt found!");
+			e.printStackTrace();
+			return;
+		}
+		
 		mapHandler = new MapHandler();
 		renderHandler = new RenderHandler(mapHandler, batch, camera);
-		eventHandler = new EventHandler(mapHandler, renderHandler, camera);
+		eventHandler = new EventHandler(mapHandler, renderHandler, camera, tileHandler);
 		
 		Gdx.input.setInputProcessor(eventHandler);
 		

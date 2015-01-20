@@ -20,6 +20,7 @@ public class MapHandler {
 		
 		currentMap.fillWithTile(new Tile(new Texture("raster.png"), false));
 		
+		currentMap.fillWithTile(new Tile(new Texture("dirt.png"), false), new Vector3(0, 0, 0), new Vector3(2,2,0)); 
 		
 		
 		ArrayList<CollisionRect> tempList = new ArrayList<CollisionRect>();
@@ -42,5 +43,5 @@ public class MapHandler {
 	public GameMap getCurrentMap() {
 		return currentMap;
 	}
-
+	
 }

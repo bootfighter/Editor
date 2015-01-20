@@ -118,6 +118,7 @@ public class GameMap {
 	public void fillWithTile(Tile a_tile, Vector3 a_point1, Vector3 a_point2) {
 
 		if(!isInbounds(a_point2) || !isInbounds(a_point1))
+			
 			return;
 		
 		for (int i = (int) a_point1.x; i < a_point2.x; i++) {
