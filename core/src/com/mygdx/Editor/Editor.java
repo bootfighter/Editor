@@ -56,4 +56,10 @@ public class Editor extends ApplicationAdapter {
 		renderHandler.draw();
 		mapHandler.update();
 	}
+	
+	@Override
+	public void resize(int width, int height) {
+		renderHandler.resize(width, height);
+	}
+	
 }

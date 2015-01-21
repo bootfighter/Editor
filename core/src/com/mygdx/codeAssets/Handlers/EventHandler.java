@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.Editor.GameParameters;
 import com.mygdx.codeAssets.Objects.Camera;
+import com.mygdx.codeAssets.Objects.Tile;
 
 
 public class EventHandler implements InputProcessor {
@@ -92,32 +92,27 @@ public class EventHandler implements InputProcessor {
 		
 		case Buttons.LEFT:
 			paintDraging = false;
-			
-			float tileZoomfact = (1 / GameParameters.tileSize) * renderHandler.orthoCamera.zoom;
-			float camPosX = camera.camPosition.x - Gdx.graphics.getWidth()  / 2;
-			float camPosY = camera.camPosition.y - Gdx.graphics.getHeight() / 2;
+
+			float currentZoomFactor = renderHandler.orthoCamera.zoom;
+			float camPosX = camera.camPosition.x - (Gdx.graphics.getWidth() * currentZoomFactor / 2) ;
+			float camPosY = camera.camPosition.y - (Gdx.graphics.getHeight() * currentZoomFactor / 2) ;
 			float upPosY = Gdx.graphics.getHeight() - screenY;
-			float downPosY = Gdx.graphics.getHeight() - paintTouchY;
+
+			Vector3 tilePosition = new Vector3(screenX * currentZoomFactor + camPosX, upPosY * currentZoomFactor + camPosY, 0);
+			//Vector3 cameraOffset = new Vector3(camPosX , camPosY, 0);
 			
-			mapHandler.getCurrentMap().setTileAtPosition(tileHandler.getSelectedTile(), (int)((camPosX + screenX)/GameParameters.tileSize), (int)((camPosY + upPosY)/GameParameters.tileSize), 0);
-			/*mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), 
-					new Vector3( (int) ((camPosX + screenX) * tileZoomfact), (int) ((camPosY + upPosY) * tileZoomfact), 0),
-					new Vector3( (int) ((camPosX + paintTouchX) * tileZoomfact), (int) ((camPosY + downPosY) *tileZoomfact), 0));
-					*/
-			System.out.println(tileZoomfact);
-			System.out.println((int)((camPosX + screenX) * tileZoomfact)  + ":" + (int)((camPosY + upPosY) * tileZoomfact) + ":" + 0);
-			System.out.println((int)((camPosX + paintTouchX) * tileZoomfact)  + ":" + (int)(camPosY + downPosY) *tileZoomfact + ":" + 0);
+//			tilePosition.add(cameraOffset);
+
+			tilePosition = Tile.convertWorldSpaceToTileSpace(tilePosition);
 			
+			mapHandler.getCurrentMap().setTileAtPosition(tileHandler.getSelectedTile(), tilePosition);
+					
 			break;
 			
 		case Buttons.RIGHT:
 			moveDraging = false;
-			
-			
 			break;
 		}
-		
-		
 		return true;
 	}
 

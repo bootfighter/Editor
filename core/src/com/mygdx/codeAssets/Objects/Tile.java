@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.Editor.GameParameters;
 
 public class Tile {
 	
 	Texture texture; 
 	ArrayList<CollisionRect> collision_boxes;
-	private int tileSize = 16;
+	private static int tileSize = GameParameters.tileSize;
 	
 	
 	// Constructors
@@ -35,5 +37,36 @@ public class Tile {
 	public ArrayList<CollisionRect> getCollision_boxes() {
 		return collision_boxes;
 	}
+	
+	
+
+	public static Vector3 convertTileSpaceToWorldSpace (Vector3 a_tileSpace){
+		return new Vector3(	a_tileSpace.x * tileSize, 
+				a_tileSpace.y * tileSize,
+				a_tileSpace.z * tileSize);
+	}
+	
+	public static int convertTileSpaceToWorldSpace(int a_tileSpace){
+		return (a_tileSpace * tileSize);
+	}
+	
+	public static Vector3 convertTileSpaceToWorldSpace(int a_tileSpaceDimX, int a_tileSpaceDimY, int a_tileSpaceDimZ ){
+		return (new Vector3(a_tileSpaceDimX * tileSize, a_tileSpaceDimY * tileSize, a_tileSpaceDimZ * tileSize));
+	}
+	
+	public static Vector3 convertWorldSpaceToTileSpace (Vector3 a_tileSpace){
+		return new Vector3(	(int)a_tileSpace.x / tileSize, 
+				(int)a_tileSpace.y / tileSize,
+				(int)a_tileSpace.z / tileSize);
+	}
+	
+	public static int convertWorldSpaceToTileSpace (int a_tileSpace){
+		return (a_tileSpace / tileSize);
+	}
+	
+	public static Vector3 convertWorldSpaceToTileSpace(int a_worldSpaceDimX, int a_worldSpaceDimY, int a_worldSpaceDimZ ){
+		return (new Vector3((int)(a_worldSpaceDimX / tileSize), (int)(a_worldSpaceDimY / tileSize), (int)(a_worldSpaceDimZ / tileSize)));
+	}
+	
 	
 }

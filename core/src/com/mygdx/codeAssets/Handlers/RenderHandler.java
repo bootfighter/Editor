@@ -71,6 +71,8 @@ public class RenderHandler {
 		
 		orthoCamera.position.set(new Vector2(camera.camPosition.x, camera.camPosition.y), 0f);
 		orthoCamera.update();
+		
+		
 		currentMap = mapHandler.getCurrentMap();
 		
 		batch.setProjectionMatrix(orthoCamera.combined);

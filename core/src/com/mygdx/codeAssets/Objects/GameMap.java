@@ -17,10 +17,14 @@ public class GameMap {
 		dimensionX = a_dimensionX;
 		dimensionY = a_dimensionY;
 		dimensionZ = a_dimensionZ;
-		if(isInbounds(a_dimensionX, a_dimensionY, a_dimensionZ))
+		if(isPositiv(a_dimensionX, a_dimensionY, a_dimensionZ))
 			tileList = new Tile[dimensionX][dimensionY][dimensionZ];
-		else
-			tileList = new Tile[1][1][1];
+		else{
+			dimensionX = 1;
+			dimensionY = 1;
+			dimensionZ = 1;
+			tileList = new Tile[dimensionX][dimensionY][dimensionZ];
+		}
 		fillWithTile(new Tile());
 	}
 
@@ -133,25 +137,45 @@ public class GameMap {
 	}
 
 	private boolean isInbounds(Vector3 a_index) {
-		if(a_index.x < 0 || a_index.x > dimensionX)
+		if(a_index.x < 0 || a_index.x >= dimensionX)
 			return false;
-		if(a_index.y < 0 || a_index.y > dimensionY)
+		if(a_index.y < 0 || a_index.y >= dimensionY)
 			return false;
-		if(a_index.z < 0 || a_index.z > dimensionZ)
+		if(a_index.z < 0 || a_index.z >= dimensionZ)
 			return false;
 		return true;
 	}
 	
 	private boolean isInbounds(int a_dimensionX, int a_dimensionY, int a_dimensionZ) {
-		if(a_dimensionX < 0 || a_dimensionX > dimensionX)
+		if(a_dimensionX < 0 || a_dimensionX >= dimensionX)
 			return false;
-		if(a_dimensionY < 0 || a_dimensionY > dimensionY)
+		if(a_dimensionY < 0 || a_dimensionY >= dimensionY)
 			return false;
-		if(a_dimensionZ < 0 || a_dimensionZ > dimensionZ)
+		if(a_dimensionZ < 0 || a_dimensionZ >= dimensionZ)
 			return false;
 		return true;
 	}
-		
+	
+	private boolean isPositiv(Vector3 a_dimensions){
+		if (a_dimensions.x < 0)
+			return false;
+		if (a_dimensions.y < 0)
+			return false;
+		if (a_dimensions.z < 0)
+			return false;
+		return true;
+	}
+	
+	private boolean isPositiv(int a_dimensionX, int a_dimensionY, int a_dimensionZ){
+		if(a_dimensionX < 0)
+			return false;
+		if(a_dimensionY < 0)
+			return false;
+		if(a_dimensionZ < 0)
+			return false;
+		return true;
+	}
+	
 	public void draw(SpriteBatch a_batch) {
 
 		a_batch.begin();
