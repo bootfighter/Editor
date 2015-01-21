@@ -1,5 +1,6 @@
 package com.mygdx.codeAssets.Handlers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
@@ -90,20 +91,28 @@ public class EventHandler implements InputProcessor {
 		switch(button) {
 		
 		case Buttons.LEFT:
-		
 			paintDraging = false;
-			System.out.println("juhuuuu!!");
-			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), 
-					new Vector3( (int)((camera.camPosition.x + paintTouchX)  / GameParameters.tileSize),
-								 (int)((camera.camPosition.y + paintTouchY)  / GameParameters.tileSize), 0), 
-					new Vector3( (int)((camera.camPosition.x + paintEndX) / GameParameters.tileSize),
-								 (int)((camera.camPosition.y + paintEndY) / GameParameters.tileSize), 0));
-		
+			
+			float tileZoomfact = (1 / GameParameters.tileSize) * renderHandler.orthoCamera.zoom;
+			float camPosX = camera.camPosition.x - Gdx.graphics.getWidth()  / 2;
+			float camPosY = camera.camPosition.y - Gdx.graphics.getHeight() / 2;
+			float upPosY = Gdx.graphics.getHeight() - screenY;
+			float downPosY = Gdx.graphics.getHeight() - paintTouchY;
+			
+			mapHandler.getCurrentMap().setTileAtPosition(tileHandler.getSelectedTile(), (int)((camPosX + screenX)/GameParameters.tileSize), (int)((camPosY + upPosY)/GameParameters.tileSize), 0);
+			/*mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), 
+					new Vector3( (int) ((camPosX + screenX) * tileZoomfact), (int) ((camPosY + upPosY) * tileZoomfact), 0),
+					new Vector3( (int) ((camPosX + paintTouchX) * tileZoomfact), (int) ((camPosY + downPosY) *tileZoomfact), 0));
+					*/
+			System.out.println(tileZoomfact);
+			System.out.println((int)((camPosX + screenX) * tileZoomfact)  + ":" + (int)((camPosY + upPosY) * tileZoomfact) + ":" + 0);
+			System.out.println((int)((camPosX + paintTouchX) * tileZoomfact)  + ":" + (int)(camPosY + downPosY) *tileZoomfact + ":" + 0);
+			
 			break;
 			
 		case Buttons.RIGHT:
 			moveDraging = false;
-			System.out.println("test" + moveDraging);
+			
 			
 			break;
 		}
@@ -116,10 +125,12 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		System.out.println(screenX + " " + screenY);
+		
 		if(moveDraging) {
 			camera.update(moveTouchX - screenX, moveTouchY - screenY, renderHandler.orthoCamera.zoom);
 			moveTouchX = screenX;
 			moveTouchY = screenY;
+			
 		} else if(paintDraging) {
 			paintEndX = screenX;
 			paintEndY = screenY;
