@@ -96,6 +96,7 @@ public class EventHandler implements InputProcessor {
 			float currentZoomFactor = renderHandler.orthoCamera.zoom;
 			float camPosX = camera.camPosition.x - (Gdx.graphics.getWidth() * currentZoomFactor / 2) ;
 			float camPosY = camera.camPosition.y - (Gdx.graphics.getHeight() * currentZoomFactor / 2) ;
+			
 			float downPosY = Gdx.graphics.getHeight() - paintTouchY;
 			float upPosY = Gdx.graphics.getHeight() - screenY;
 
@@ -105,8 +106,10 @@ public class EventHandler implements InputProcessor {
 			startPosition = Tile.convertWorldSpaceToTileSpace(startPosition);
 			tilePosition = Tile.convertWorldSpaceToTileSpace(tilePosition);
 			
+			tilePosition.x++;
+			tilePosition.y++;
+			
 			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, tilePosition);
-			mapHandler.getCurrentMap().setTileAtPosition(tileHandler.getSelectedTile(), tilePosition);
 					
 			break;
 			
