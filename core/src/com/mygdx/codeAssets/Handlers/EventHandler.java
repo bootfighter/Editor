@@ -96,15 +96,16 @@ public class EventHandler implements InputProcessor {
 			float currentZoomFactor = renderHandler.orthoCamera.zoom;
 			float camPosX = camera.camPosition.x - (Gdx.graphics.getWidth() * currentZoomFactor / 2) ;
 			float camPosY = camera.camPosition.y - (Gdx.graphics.getHeight() * currentZoomFactor / 2) ;
+			float downPosY = Gdx.graphics.getHeight() - paintTouchY;
 			float upPosY = Gdx.graphics.getHeight() - screenY;
 
 			Vector3 tilePosition = new Vector3(screenX * currentZoomFactor + camPosX, upPosY * currentZoomFactor + camPosY, 0);
-			//Vector3 cameraOffset = new Vector3(camPosX , camPosY, 0);
+			Vector3 startPosition = new Vector3(paintTouchX * currentZoomFactor + camPosX, downPosY * currentZoomFactor + camPosY, 0);
 			
-//			tilePosition.add(cameraOffset);
-
+			startPosition = Tile.convertWorldSpaceToTileSpace(startPosition);
 			tilePosition = Tile.convertWorldSpaceToTileSpace(tilePosition);
 			
+			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, tilePosition);
 			mapHandler.getCurrentMap().setTileAtPosition(tileHandler.getSelectedTile(), tilePosition);
 					
 			break;
@@ -122,7 +123,7 @@ public class EventHandler implements InputProcessor {
 		System.out.println(screenX + " " + screenY);
 		
 		if(moveDraging) {
-			camera.update(moveTouchX - screenX, moveTouchY - screenY, renderHandler.orthoCamera.zoom);
+			camera.update((moveTouchX - screenX)*2, (moveTouchY - screenY)*2, renderHandler.orthoCamera.zoom);
 			moveTouchX = screenX;
 			moveTouchY = screenY;
 			
