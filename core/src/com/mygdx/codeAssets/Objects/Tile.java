@@ -10,6 +10,7 @@ import com.mygdx.Editor.GameParameters;
 public class Tile {
 	
 	Texture texture; 
+	Texture sideTexture;
 	ArrayList<CollisionRect> collision_boxes;
 	private static int tileSize = GameParameters.tileSize;
 	
@@ -23,13 +24,24 @@ public class Tile {
 
 	public Tile(Texture a_texture, boolean a_is_solid){
 		texture = a_texture;
+		sideTexture = new Texture("missingtxt.png");
 		collision_boxes = new ArrayList<CollisionRect>();
 		if (a_is_solid)
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
 	
+	public Tile(Texture a_texture, Texture a_sideTexture, boolean a_isSolid) {
+		texture = a_texture;
+		System.out.println("test");
+		sideTexture = a_sideTexture;
+		collision_boxes = new ArrayList<CollisionRect>();
+		if (a_isSolid)
+			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
+	}
+	
 	public Tile(){
 		texture = new Texture("missingtxt.png");
+		sideTexture = new Texture("missingtxt.png");
 		collision_boxes = new ArrayList<CollisionRect>();
 		collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}

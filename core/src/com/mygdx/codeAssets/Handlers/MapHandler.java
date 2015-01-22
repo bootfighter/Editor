@@ -16,12 +16,15 @@ public class MapHandler {
 	GameMap lastMap;
 		
 	public MapHandler() {
-		currentMap = lastMap = new GameMap(GameParameters.mapSizeX, GameParameters.mapSizeY, 1);
+		currentMap = lastMap = new GameMap(GameParameters.mapSizeX, GameParameters.mapSizeY, GameParameters.mapSizeZ);
 		
-		currentMap.fillWithTile(new Tile(new Texture("raster.png"), false));
+		currentMap.fillWithTile(new Tile(new Texture("air.png"), new Texture("air.png"), false));
 		
-		currentMap.fillWithTile(new Tile(new Texture("dirt.png"), false), new Vector3(0, 0, 0), new Vector3(2,2,0)); 
+		currentMap.fillWithTile(new Tile(new Texture("raster.png"), new Texture("air.png"), false), new Vector3(0, 0, 0), new Vector3(GameParameters.mapSizeX -1 ,GameParameters.mapSizeY - 1 ,0));
 		
+		//currentMap.fillWithTile(new Tile(new Texture("dirt.png"), false), new Vector3(0, 0, 0), new Vector3(2,2,0)); 
+		
+		currentMap.setTileAtPosition(new Tile(new Texture("grass2.png"), new Texture("stonewall.png"), false), new Vector3(2,2,1));
 		
 		ArrayList<CollisionRect> tempList = new ArrayList<CollisionRect>();
 		tempList.add(new CollisionRect(new Vector2(4, 0), new Vector2(8, 16)));

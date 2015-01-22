@@ -182,12 +182,17 @@ public class GameMap {
 
 		for (int dimX = 0; dimX < dimensionX; dimX++) {
 
-			for (int dimY = 0; dimY < dimensionY; dimY++) {
+			for (int dimY = dimensionY - 1; dimY >= 0; dimY--) {
 
 				for (int dimZ = 0; dimZ < dimensionZ; dimZ++) {
 
-					a_batch.draw(tileList[dimX][dimY][dimZ].texture, dimX * GameParameters.tileSize, dimY * GameParameters.tileSize);
-
+					if(dimZ > 0){
+						a_batch.draw(tileList[dimX][dimY][dimZ].sideTexture, dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + (dimZ -1) * GameParameters.tileHightOffset);
+					}
+					
+					a_batch.draw(tileList[dimX][dimY][dimZ].texture, dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + dimZ  * GameParameters.tileHightOffset);
+					
+					
 				}
 
 			}
