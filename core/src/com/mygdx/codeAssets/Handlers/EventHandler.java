@@ -110,7 +110,10 @@ public class EventHandler implements InputProcessor {
 			tilePosition.y++;
 			
 			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, tilePosition);
-					
+			
+			
+			//lalaala
+			
 			break;
 			
 		case Buttons.RIGHT:
