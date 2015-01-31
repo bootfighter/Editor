@@ -11,29 +11,35 @@ public class Tile {
 	
 	Texture texture; 
 	Texture sideTexture;
+	String txtName;
+	String sideTxtName;
 	ArrayList<CollisionRect> collision_boxes;
 	private static int tileSize = GameParameters.tileSize;
 	
 	
 	// Constructors
-	public Tile(Texture a_texture, ArrayList<CollisionRect> a_collision_boxes){
-		texture = a_texture;
+	public Tile(String a_path, ArrayList<CollisionRect> a_collision_boxes){
+		texture = new Texture(a_path);
+		txtName = a_path;
 		collision_boxes = a_collision_boxes;
 	}
 	
 
-	public Tile(Texture a_texture, boolean a_is_solid){
-		texture = a_texture;
+	public Tile(String a_path, boolean a_is_solid){
+		texture = new Texture(a_path);
+		txtName = a_path;
 		sideTexture = new Texture("missingtxt.png");
+		sideTxtName = "missingtxt.png";
 		collision_boxes = new ArrayList<CollisionRect>();
 		if (a_is_solid)
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
 	
-	public Tile(Texture a_texture, Texture a_sideTexture, boolean a_isSolid) {
-		texture = a_texture;
-		System.out.println("test");
-		sideTexture = a_sideTexture;
+	public Tile(String a_path, String a_sidePath, boolean a_isSolid) {
+		texture = new Texture(a_path);
+		txtName = a_path;
+		sideTexture = new Texture(a_sidePath);
+		sideTxtName = a_sidePath;
 		collision_boxes = new ArrayList<CollisionRect>();
 		if (a_isSolid)
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
@@ -41,7 +47,9 @@ public class Tile {
 	
 	public Tile(){
 		texture = new Texture("missingtxt.png");
+		txtName = "missingtxt.png";
 		sideTexture = new Texture("missingtxt.png");
+		sideTxtName = "missingtxt.png";
 		collision_boxes = new ArrayList<CollisionRect>();
 		collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
@@ -80,5 +88,12 @@ public class Tile {
 		return (new Vector3((int)(a_worldSpaceDimX / tileSize), (int)(a_worldSpaceDimY / tileSize), (int)(a_worldSpaceDimZ / tileSize)));
 	}
 	
+	public String getTxtName() {
+		return txtName;
+	}
+	
+	public String getSideTxtName() {
+		return sideTxtName;
+	}
 	
 }

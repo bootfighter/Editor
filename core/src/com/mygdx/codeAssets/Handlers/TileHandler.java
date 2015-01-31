@@ -27,7 +27,7 @@ public class TileHandler {
 		
 		while(tilePath != null) {
 			System.out.println(tilePath);
-			totalTile.add(new Tile(new Texture("../core/assets/" + tilePath), false));
+			totalTile.add(new Tile("../core/assets/" + tilePath, false));
 			tilePath = br.readLine();
 		}
 		

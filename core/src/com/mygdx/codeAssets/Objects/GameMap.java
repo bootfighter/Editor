@@ -70,6 +70,16 @@ public class GameMap {
 			return null;
 		return tileList[(int)a_tilePosition.x][(int)a_tilePosition.y][(int)a_tilePosition.z];
 	}
+	
+	
+	//TODO: add to Game!!
+	//-----------------------------------------------------------------------------
+	public Tile getTileAtPosition(int a_xCoord, int a_yCoord, int a_zCoord) {
+		if(!isInbounds(a_xCoord, a_yCoord, a_zCoord))
+			return null;
+		return tileList[a_xCoord][a_yCoord][a_zCoord];
+	}
+	//-----------------------------------------------------------------------------
 
 	public int getDimensionX() {
 		return dimensionX;
@@ -124,6 +134,8 @@ public class GameMap {
 		if(!isInbounds(a_point2) || !isInbounds(a_point1))
 			
 			return;
+		
+		
 		
 		for (int i = (int) a_point1.x; i < a_point2.x; i++) {
 
@@ -200,5 +212,5 @@ public class GameMap {
 		}
 		a_batch.end();
 	}
-
+	
 }

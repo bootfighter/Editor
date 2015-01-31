@@ -77,8 +77,7 @@ public class EventHandler implements InputProcessor {
 			
 			break;
 		}
-			System.out.println("hallo du da " + screenX + " " + screenY + " " + pointer );
-		
+			
 		
 		
 		return true;
@@ -112,8 +111,6 @@ public class EventHandler implements InputProcessor {
 			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, tilePosition);
 			
 			
-			//lalaala
-			
 			break;
 			
 		case Buttons.RIGHT:
@@ -126,7 +123,6 @@ public class EventHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		System.out.println(screenX + " " + screenY);
 		
 		if(moveDraging) {
 			camera.update((moveTouchX - screenX)*2, (moveTouchY - screenY)*2, renderHandler.orthoCamera.zoom);

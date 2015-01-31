@@ -37,7 +37,6 @@ public class Camera {
 	public void update(int a_screenX, int a_screenY, float a_zoom) {
 		camPosition.x += a_screenX * a_zoom / 2; 
 		camPosition.y -= a_screenY * a_zoom / 2;
-		System.out.println("   pos:" + camPosition.x + " " + camPosition.y);
 	}
 	
 	

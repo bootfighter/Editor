@@ -8,11 +8,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.codeAssets.Handlers.EventHandler;
 import com.mygdx.codeAssets.Handlers.MapHandler;
 import com.mygdx.codeAssets.Handlers.RenderHandler;
 import com.mygdx.codeAssets.Handlers.TileHandler;
 import com.mygdx.codeAssets.Objects.Camera;
+import com.mygdx.fileManagement.FileManager;
 
 
 public class Editor extends ApplicationAdapter {
@@ -23,11 +25,11 @@ public class Editor extends ApplicationAdapter {
 	EventHandler eventHandler;
 	TileHandler tileHandler;
 	Camera camera;
-	
-	
+	Skin skin;
 	
 	@Override
 	public void create () {
+		
 		batch = new SpriteBatch();
 		camera = new Camera();		
 		
@@ -45,6 +47,13 @@ public class Editor extends ApplicationAdapter {
 		
 		Gdx.input.setInputProcessor(eventHandler);
 		
+		try {
+			FileManager.SaveMapToFile(mapHandler.getCurrentMap(), "../core/assets/test.txt");
+			FileManager.loadMapFromFile("../core/assets/test.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
