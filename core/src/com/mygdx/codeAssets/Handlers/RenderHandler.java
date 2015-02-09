@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.codeAssets.Objects.Camera;
 import com.mygdx.codeAssets.Objects.GameMap;
 
 public class RenderHandler {
@@ -19,23 +18,23 @@ public class RenderHandler {
 	
 	MapHandler mapHandler;
 	
+	UIHandler uiHandler;
+	
 	GameMap currentMap;
 	
 	Vector3 camPosition = new Vector3(0,0,0);
 	
-	Camera camera;
 	
-	boolean menu = false;
 	
 	private BitmapFont debugFont;
 	SpriteBatch debugBatch;
 	Matrix4 normalProjection;
 	Vector2 debugPosition;
 	
-	public RenderHandler(MapHandler a_mapHandler, SpriteBatch a_batch, Camera a_cam){
+	public RenderHandler(MapHandler a_mapHandler, UIHandler a_uiHandler, SpriteBatch a_batch){
 		mapHandler = a_mapHandler;
+		uiHandler = a_uiHandler;
 		batch = a_batch;
-		camera = a_cam;
 		
 		isDebug = false;
 		debugFont = new BitmapFont();
@@ -59,6 +58,7 @@ public class RenderHandler {
 	}
 	
 	public void resize(int a_XSize, int a_YSize) {
+		uiHandler.resize(a_XSize, a_YSize);
 		orthoCamera.viewportHeight = a_YSize;
 		orthoCamera.viewportWidth = a_XSize;
 	}
@@ -66,25 +66,15 @@ public class RenderHandler {
 	
 	
 	public void draw() {
-		
-		
-		
-		orthoCamera.position.set(new Vector2(camera.camPosition.x, camera.camPosition.y), 0f);
 		orthoCamera.update();
-		
-		
+	
 		currentMap = mapHandler.getCurrentMap();
 		
 		batch.setProjectionMatrix(orthoCamera.combined);
-		
-		
+	
 		currentMap.draw(batch);
-
-		if(!menu) {
-			
-			
-			
-		}
+		
+		uiHandler.draw();
 		
 	}	
 	
