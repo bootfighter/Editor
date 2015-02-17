@@ -8,11 +8,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.codeAssets.Objects.Tile;
 
 
 public class TileHandler {
+	
 	private Tile selcetedTile;
 	private String tilePath = " ";
 	private ArrayList<Tile> totalTile = new ArrayList<Tile>();

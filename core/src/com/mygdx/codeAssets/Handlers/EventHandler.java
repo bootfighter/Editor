@@ -14,11 +14,12 @@ public class EventHandler implements InputProcessor {
 	
 	Vector2 currentMousePos;
 	
-	public EventHandler(MapHandler a_mapHandler, UIHandler a_uiHandler, RenderHandler a_renderHandler){
+	public EventHandler(MapHandler a_mapHandler, UIHandler a_uiHandler, RenderHandler a_renderHandler, EditorHandler a_editorHandler){
 		mapHandler = a_mapHandler;
 		uiHandler = a_uiHandler;
 		renderHandler = a_renderHandler;
-		editorHandler = new EditorHandler(renderHandler.orthoCamera, mapHandler);
+//		editorHandler = new EditorHandler(renderHandler.orthoCamera, mapHandler);
+		editorHandler = a_editorHandler;
 		currentMousePos = new Vector2(0,0);
 	}
 	
@@ -26,14 +27,11 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		
-		if (uiHandler.isInBounds((int)currentMousePos.x, (int)currentMousePos.y)) {
-			uiHandler.scrolled(amount, (int)currentMousePos.x, (int)currentMousePos.y);
-		}else{
-			renderHandler.zoom(amount);
+		if (!uiHandler.scrolled(amount, (int)currentMousePos.x, (int)currentMousePos.y)) {
+			if(!renderHandler.zoom(amount))
+				return false;
 		}
-		
-		
-		return false;
+		return true;
 	}
 
 
@@ -61,9 +59,9 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-		editorHandler.touchDown(screenX, screenY, button);
-		uiHandler.touchDown(screenX, screenY, button);
-
+		if (!uiHandler.touchDown(screenX, screenY, button)) {
+			editorHandler.touchDown(screenX, screenY, button);
+		}
 		return true;
 	}
 
@@ -71,8 +69,9 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
-		editorHandler.touchUp(screenX, screenY, button);
-
+		if (!uiHandler.touchUp(screenX, screenY, button)) {
+			editorHandler.touchUp(screenX, screenY, button);
+		}
 		return true;
 	}
 
@@ -88,6 +87,9 @@ public class EventHandler implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		
+		editorHandler.mouseMoved(screenX, screenY);
+		
 		currentMousePos.x = screenX;
 		currentMousePos.y = screenY;
 		return false;

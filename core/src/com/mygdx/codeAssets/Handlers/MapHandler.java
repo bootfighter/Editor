@@ -2,6 +2,7 @@ package com.mygdx.codeAssets.Handlers;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.Editor.GameParameters;
@@ -38,12 +39,19 @@ public class MapHandler {
 		
 	}
 	
-	public Tile getTileFromPosition(Vector3 a_tilePosition) {
+	public Tile getTile(Vector3 a_tilePosition) {
 		return currentMap.getTileAtPosition(a_tilePosition);
+	}
+	
+	public Tile[][][] getTileSubsection(Vector3 a_startPosition, Vector3 a_endPosition){
+		return currentMap.getTileSubsection(a_startPosition, a_endPosition);	
 	}
 	
 	public GameMap getCurrentMap() {
 		return currentMap;
 	}
 	
+	public void draw(SpriteBatch a_batch){
+		currentMap.draw(a_batch);
+	}
 }

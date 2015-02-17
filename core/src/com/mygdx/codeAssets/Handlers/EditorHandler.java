@@ -6,6 +6,7 @@ import java.io.IOException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.codeAssets.Objects.Tile;
 
@@ -15,29 +16,39 @@ public class EditorHandler {
 	float currentZoomFactor;
 	float camPosX;
 	float camPosY;
-	float downPosY;
+
 	float upPosY;
 	int moveTouchX;
 	int moveTouchY;
-	int paintTouchX;
-	int paintTouchY;
-	int paintEndX;
-	int paintEndY;
+
 	boolean moveDraging;
-	
 	boolean paintDraging = false;
+	Vector3 endPosition;
+	Vector3 startPosition;
+	Vector3 drawPoint1;
+	Vector3 drawPoint2;
+	Vector3 currentMousePosition;
+	Tile[][][] currentTileSubsection;
+	
+	
 	TileHandler tileHandler;
 	OrthographicCamera camera;
 	MapHandler mapHandler;
 	
-	public EditorHandler(OrthographicCamera a_camera, MapHandler a_mapHandler) {
+	
+	public EditorHandler( MapHandler a_mapHandler) {
 		currentZoomFactor = 0;
 		camPosX = 0;
-		camPosY = 0;
-		downPosY = 0;
 		upPosY = 0;
-		camera = a_camera;
 		mapHandler = a_mapHandler;
+		currentTileSubsection = new Tile[0][0][0];
+		
+		endPosition = new Vector3(0, 0, 0);
+		startPosition = new Vector3(0, 0, 0);
+		currentMousePosition = new Vector3(0, 0, 0);
+		drawPoint1 = new Vector3(0, 0, 0);
+		drawPoint2 = new Vector3(0, 0, 0);
+		
 		try {
 			tileHandler = new TileHandler(new File("../core/assets/tiles.txt"));
 		} catch (IOException e) {
@@ -47,21 +58,23 @@ public class EditorHandler {
 		}
 	}
 	
+	public void setOrthoCamera(OrthographicCamera a_camera){
+		camera = a_camera;
+	}
+	
 	public void touchDown(int screenX, int screenY, int button){
 		
 		switch(button) {
 
 		case Buttons.LEFT:
 			paintDraging = true;
-			paintTouchX = screenX;
-			paintTouchY = screenY;
+			startPosition.set(currentMousePosition);			
 			break;
 
 		case Buttons.RIGHT:
 			moveDraging = true;
 			moveTouchX = screenX;
 			moveTouchY = screenY;
-			
 			break;
 		}
 		
@@ -71,29 +84,28 @@ public class EditorHandler {
 		
 		switch (a_button) {
 		case Buttons.LEFT:
-			paintDraging = false;
+			paintDraging = false;	
 			
-			currentZoomFactor = camera.zoom;
-			camPosX = camera.position.x - (Gdx.graphics.getWidth() * currentZoomFactor / 2) ;
-			camPosY = camera.position.y - (Gdx.graphics.getHeight() * currentZoomFactor / 2) ;
+			endPosition.set(currentMousePosition);
 			
-			downPosY = Gdx.graphics.getHeight() - paintTouchY;
-			upPosY = Gdx.graphics.getHeight() - a_screenY;
-
-			Vector3 tilePosition = new Vector3(a_screenX * currentZoomFactor + camPosX, upPosY * currentZoomFactor + camPosY, 0);
-			Vector3 startPosition = new Vector3(paintTouchX * currentZoomFactor + camPosX, downPosY * currentZoomFactor + camPosY, 0);
+			if (startPosition.x > endPosition.x) 
+				startPosition.x++;
+			else 
+				endPosition.x++;
+			if (startPosition.y > endPosition.y) 
+				startPosition.y++;
+			else 
+				endPosition.y++;
 			
-			startPosition = Tile.convertWorldSpaceToTileSpace(startPosition);
-			tilePosition = Tile.convertWorldSpaceToTileSpace(tilePosition);
+			currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
 			
-			tilePosition.x++;
-			tilePosition.y++;
-			
-			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, tilePosition);	
+			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, endPosition);
 			
 			break;
 		case Buttons.RIGHT:
 			moveDraging = false;
+			moveTouchX = a_screenX;
+			moveTouchY = a_screenY;
 			break;
 		default:
 			break;
@@ -102,19 +114,61 @@ public class EditorHandler {
 	}
 
 	public boolean touchDragged(int a_screenX, int a_screenY) {
-
+		
+		mouseMoved(a_screenX, a_screenY);
+		
 		if(moveDraging) {
 			camera.translate((moveTouchX - a_screenX) * camera.zoom, - (moveTouchY - a_screenY) * camera.zoom);
 			moveTouchX = a_screenX;
 			moveTouchY = a_screenY;
 
 		} else if(paintDraging) {
-			paintEndX = a_screenX;
-			paintEndY = a_screenY;
+			currentTileSubsection = mapHandler.getTileSubsection(startPosition, currentMousePosition);
+			
 		}
 		return true;
 	}
 
+	public void mouseMoved(int a_screenX, int a_screenY){
+		
+		currentZoomFactor = camera.zoom;
+		camPosX = camera.position.x - (Gdx.graphics.getWidth() * currentZoomFactor / 2) ;
+		camPosY = camera.position.y - (Gdx.graphics.getHeight() * currentZoomFactor / 2) ;
+		
+		upPosY = Gdx.graphics.getHeight() - a_screenY;
+		
+		currentMousePosition = Tile.convertWorldSpaceToTileSpace((int)(a_screenX * currentZoomFactor + camPosX), (int)(upPosY * currentZoomFactor + camPosY), 0);
+		
+		currentMousePosition = mapHandler.getCurrentMap().convertToInbounds(currentMousePosition);	
+	}
 	
+	public void draw(SpriteBatch a_batch){
+		
+		drawPoint1.set(startPosition);
+		drawPoint2.set(currentMousePosition);
+		mapHandler.getCurrentMap().sortPoints(drawPoint1, drawPoint2);
+		drawPoint2.x++;
+		drawPoint2.y++;
+		mapHandler.getCurrentMap().convertToInbounds(drawPoint2);
+		
+		if (paintDraging) {
+			a_batch.begin();
+			
+			a_batch.setColor(1, 1, 1, 0.7f);
+			
+			for (int posX = 0; posX < drawPoint2.x - drawPoint1.x; posX++) {
+				for (int posY = 0; posY < drawPoint2.y - drawPoint1.y; posY++) {
+					
+					a_batch.draw(tileHandler.getSelectedTile().getTexture(), Tile.convertTileSpaceToWorldSpace(posX + (int)drawPoint1.x),
+							Tile.convertTileSpaceToWorldSpace(posY + (int)drawPoint1.y));
+					
+				}
+			}
+
+			a_batch.setColor(1, 1, 1, 1);
+			
+			a_batch.end();
+		}
+	}
 	
 }

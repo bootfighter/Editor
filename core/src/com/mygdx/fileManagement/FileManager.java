@@ -44,8 +44,8 @@ public abstract class FileManager {
 				for(int iZ = 0; iZ < dimZ; iZ++) {
 					currentTile = a_toSave.getTileAtPosition(iX, iY, iZ);
 					
-					checkId[0] = getTextureID(textureList, currentTile.getTxtName());
-					checkId[1] = getTextureID(sideTextureList, currentTile.getSideTxtName());
+					checkId[0] = getTextureID(textureList, currentTile.getTextureName());
+					checkId[1] = getTextureID(sideTextureList, currentTile.getSideTextureName());
 
 					bufferArray[iX][iY][iZ] = CheckId(checkId, idList);
 				}

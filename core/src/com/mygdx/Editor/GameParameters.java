@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class GameParameters {
 	public static final int tileSize = 16;
 	public static final float collisionIteration = 1.0f;
-	public static final int mapSizeX = 16;
-	public static final int mapSizeY = 8;
+	public static final int mapSizeX = 64;
+	public static final int mapSizeY = 64;
 	public static final int mapSizeZ = 1;
 	public static final int tileHightOffset = 8;
 	

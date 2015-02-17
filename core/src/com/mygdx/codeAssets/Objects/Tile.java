@@ -9,37 +9,39 @@ import com.mygdx.Editor.GameParameters;
 
 public class Tile {
 	
-	Texture texture; 
-	Texture sideTexture;
-	String txtName;
-	String sideTxtName;
-	ArrayList<CollisionRect> collision_boxes;
+	private Texture texture; 
+	private Texture sideTexture;
+	private String textureName;
+	private String sideTextureName;
+	private ArrayList<CollisionRect> collision_boxes;
 	private static int tileSize = GameParameters.tileSize;
 	
 	
 	// Constructors
 	public Tile(String a_path, ArrayList<CollisionRect> a_collision_boxes){
 		texture = new Texture(a_path);
-		txtName = a_path;
+		textureName = a_path;
+		sideTexture = new Texture("missingtxt.png");
+		sideTextureName = "missingtxt.png";
 		collision_boxes = a_collision_boxes;
 	}
 	
 
-	public Tile(String a_path, boolean a_is_solid){
+	public Tile(String a_path, boolean a_isSolid){
 		texture = new Texture(a_path);
-		txtName = a_path;
+		textureName = a_path;
 		sideTexture = new Texture("missingtxt.png");
-		sideTxtName = "missingtxt.png";
+		sideTextureName = "missingtxt.png";
 		collision_boxes = new ArrayList<CollisionRect>();
-		if (a_is_solid)
+		if (a_isSolid)
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
 	
 	public Tile(String a_path, String a_sidePath, boolean a_isSolid) {
 		texture = new Texture(a_path);
-		txtName = a_path;
+		textureName = a_path;
 		sideTexture = new Texture(a_sidePath);
-		sideTxtName = a_sidePath;
+		sideTextureName = a_sidePath;
 		collision_boxes = new ArrayList<CollisionRect>();
 		if (a_isSolid)
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
@@ -47,9 +49,9 @@ public class Tile {
 	
 	public Tile(){
 		texture = new Texture("missingtxt.png");
-		txtName = "missingtxt.png";
+		textureName = "missingtxt.png";
 		sideTexture = new Texture("missingtxt.png");
-		sideTxtName = "missingtxt.png";
+		sideTextureName = "missingtxt.png";
 		collision_boxes = new ArrayList<CollisionRect>();
 		collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
@@ -58,8 +60,14 @@ public class Tile {
 		return collision_boxes;
 	}
 	
-	
+	public Texture getTexture(){
+		return texture;
+	}
 
+	public Texture getSideTexture(){
+		return sideTexture;
+	}
+	
 	public static Vector3 convertTileSpaceToWorldSpace (Vector3 a_tileSpace){
 		return new Vector3(	a_tileSpace.x * tileSize, 
 				a_tileSpace.y * tileSize,
@@ -88,12 +96,12 @@ public class Tile {
 		return (new Vector3((int)(a_worldSpaceDimX / tileSize), (int)(a_worldSpaceDimY / tileSize), (int)(a_worldSpaceDimZ / tileSize)));
 	}
 	
-	public String getTxtName() {
-		return txtName;
+	public String getTextureName() {
+		return textureName;
 	}
 	
-	public String getSideTxtName() {
-		return sideTxtName;
+	public String getSideTextureName() {
+		return sideTextureName;
 	}
 	
 }

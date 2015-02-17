@@ -16,17 +16,22 @@ public class UITextureField extends UIElement {
 	private ArrayList<String> textureList;
 	private Vector2 startPoint;
 	private Texture currentTexture;
+	private Texture elementBackground;
 	private int scrollOffset;
 	private BitmapFont font;
 	private final int listElementOffset;
 	private int currentYPos;
 	private int currentID;
 	
-	public UITextureField(Vector2 a_position, Texture a_Background, BitmapFont a_font, ArrayList<String> a_stringList) {
-		super(a_position, a_Background);
+	public UITextureField(Texture a_background, BitmapFont a_font, ArrayList<String> a_stringList) {
+		super();
 		textureList = a_stringList;
-		startPoint = new Vector2(10, height - 10);
+		elementBackground = a_background;
+		width = elementBackground.getWidth();
+		height = elementBackground.getHeight();
+		
 		currentTexture = new Texture("missingtxt.png");
+		
 		font = a_font;
 		scrollOffset = 0;
 		currentYPos = 0;
@@ -34,6 +39,11 @@ public class UITextureField extends UIElement {
 		listElementOffset = 20;
 	}
 	
+	@Override
+	public void setPosition(int a_width, int a_height) {
+		startPoint = new Vector2(10, height - 10);
+		super.setPosition(a_width, a_height);
+	}
 	
 	public void draw(SpriteBatch a_batch){
 		a_batch.begin();
@@ -43,9 +53,7 @@ public class UITextureField extends UIElement {
 		for (int i = 0; i < textureList.size(); i++) {
 			
 			currentYPos = (int)(position.y + startPoint.y + scrollOffset - (i * listElementOffset));
-			
-			
-			
+
 			if ( currentYPos < position.y + startPoint.y + listElementOffset && currentYPos > position.y) {
 				
 				currentTexture = new Texture(textureList.get(i));
@@ -56,14 +64,13 @@ public class UITextureField extends UIElement {
 		a_batch.end();
 	}
 	
-	public void touchDown(int a_screenX, int a_screenY, int a_button){
+	public boolean touchDown(int a_screenX, int a_screenY, int a_button){
 		
 		switch (a_button) {
 		case Buttons.LEFT:
-			a_screenY = Gdx.graphics.getHeight() - a_screenY;
-			if (a_screenX > position.x && a_screenX < position.x + width &&
-					a_screenY > position.y && a_screenY < position.y + height) {
-				 
+			if (isInBounds(a_screenX, a_screenY)) {
+				a_screenY = Gdx.graphics.getHeight() - a_screenY;
+
 				currentID = (int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset);
 				
 				if (currentID > textureList.size() - 1 || currentID < 0) {
@@ -71,23 +78,42 @@ public class UITextureField extends UIElement {
 				}
 				
 				System.out.println(currentID);
+				return true;
 			}
 			break;
 		default:
-			break;
+			return false;
 		}
-		
-		
+		return false;
 	}
 	
 	public int getCurrentID(){
 		return currentID;
 	}
 	
-	public void scrolled(int a_amount, int a_screenX, int a_screenY){
+	public boolean scrolled(int a_amount, int a_screenX, int a_screenY){
 		if (isInBounds(a_screenX, a_screenY)) {
-			scrollOffset -= a_amount * 5;
+			scrollOffset -= a_amount * 15;
+			return true;
 		}
+		return false;
+	}
+
+
+	@Override
+	public boolean touchUp(int a_screenX, int a_screenY, int a_button) {
+		return false;
+	}
+
+
+	@Override
+	public boolean mouseMoved(int a_screenX, int a_screenY) {
+		return false;
+	}
+
+
+	@Override
+	public void resize(int a_width, int a_height) {
 	}
 	
 }

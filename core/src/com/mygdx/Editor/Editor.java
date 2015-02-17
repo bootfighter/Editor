@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.codeAssets.Handlers.EditorHandler;
 import com.mygdx.codeAssets.Handlers.EventHandler;
 import com.mygdx.codeAssets.Handlers.MapHandler;
 import com.mygdx.codeAssets.Handlers.RenderHandler;
@@ -21,8 +21,8 @@ public class Editor extends ApplicationAdapter {
 	MapHandler mapHandler;
 	RenderHandler renderHandler;
 	EventHandler eventHandler;
+	EditorHandler editorHandler;
 	UIHandler uiHandler;
-	Skin skin;
 	
 	@Override
 	public void create () {
@@ -33,8 +33,11 @@ public class Editor extends ApplicationAdapter {
 		
 		mapHandler = new MapHandler();
 		uiHandler = new UIHandler();
-		renderHandler = new RenderHandler(mapHandler, uiHandler, batch);
-		eventHandler = new EventHandler(mapHandler, uiHandler, renderHandler);
+		editorHandler = new EditorHandler(mapHandler);
+		renderHandler = new RenderHandler(mapHandler, uiHandler, editorHandler, batch);
+		eventHandler = new EventHandler(mapHandler, uiHandler, renderHandler, editorHandler);
+		
+		editorHandler.setOrthoCamera(renderHandler.getOrthoCamera());
 		
 		Gdx.input.setInputProcessor(eventHandler);
 		
@@ -42,7 +45,6 @@ public class Editor extends ApplicationAdapter {
 			FileManager.SaveMapToFile(mapHandler.getCurrentMap(), "../core/assets/test.txt");
 			FileManager.loadMapFromFile("../core/assets/test.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -54,7 +56,7 @@ public class Editor extends ApplicationAdapter {
 		
 		
 		renderHandler.draw();
-		mapHandler.update();
+		uiHandler.update();
 	}
 	
 	@Override
