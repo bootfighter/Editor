@@ -10,7 +10,6 @@ public class EventHandler implements InputProcessor {
 	RenderHandler renderHandler;
 	EditorHandler editorHandler;
 	UIHandler uiHandler;
-	TileHandler tileHandler;
 	
 	Vector2 currentMousePos;
 	

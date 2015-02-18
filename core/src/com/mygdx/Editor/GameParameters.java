@@ -13,10 +13,11 @@ public class GameParameters {
 	
 	public static ArrayList<String> GetIdToTxt() {
 		ArrayList<String>  out = new ArrayList<String>();
-			
+		
+		
+		out.add("missingtxt.png");
 		out.add("dirt.png");
 		out.add("grass.png");
-		out.add("missingtxt.png");
 		out.add("stone1.png");
 		out.add("grass2.png");
 		out.add("air.png");
@@ -28,6 +29,7 @@ public class GameParameters {
 	public static ArrayList<String> GetIdToSideTxt(){
 		ArrayList<String> out = new ArrayList<String>();
 		
+		out.add("missingtxt.png");
 		out.add("stonewall.png");
 
 		return out;

@@ -30,7 +30,7 @@ public class Editor extends ApplicationAdapter {
 		
 		mapHandler = new MapHandler();
 		uiHandler = new UIHandler();
-		editorHandler = new EditorHandler(mapHandler);
+		editorHandler = new EditorHandler(mapHandler, uiHandler);
 		renderHandler = new RenderHandler(mapHandler, uiHandler, editorHandler, batch);
 		eventHandler = new EventHandler(mapHandler, uiHandler, renderHandler, editorHandler);
 	

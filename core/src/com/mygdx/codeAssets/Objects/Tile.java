@@ -11,47 +11,60 @@ public class Tile {
 	
 	private Texture texture; 
 	private Texture sideTexture;
-	private String textureName;
-	private String sideTextureName;
+	private int textureID;
+	private int sideTextureID;
 	private ArrayList<CollisionRect> collision_boxes;
 	private static int tileSize = GameParameters.tileSize;
 	
 	
+	
+	
 	// Constructors
-	public Tile(String a_path, ArrayList<CollisionRect> a_collision_boxes){
-		texture = new Texture(a_path);
-		textureName = a_path;
-		sideTexture = new Texture("missingtxt.png");
-		sideTextureName = "missingtxt.png";
+	public Tile(int a_txtID, int a_sideTxtID, ArrayList<CollisionRect> a_collision_boxes){
+		textureID = a_txtID;
+		sideTextureID = a_sideTxtID;
+		ArrayList<String> tmpTxtList = GameParameters.GetIdToTxt();
+		try {
+			texture = new Texture(tmpTxtList.get(a_txtID));
+			tmpTxtList = GameParameters.GetIdToSideTxt();
+			sideTexture = new Texture(tmpTxtList.get(a_sideTxtID));
+		} catch (Exception e) {
+			System.out.println("catched");
+			texture = new Texture("missingtxt.png");
+			sideTexture = new Texture("missingtxt.png");
+		}
 		collision_boxes = a_collision_boxes;
 	}
 	
 
-	public Tile(String a_path, boolean a_isSolid){
-		texture = new Texture(a_path);
-		textureName = a_path;
-		sideTexture = new Texture("missingtxt.png");
-		sideTextureName = "missingtxt.png";
+	public Tile(int a_txtID, int a_sideTxtID, boolean a_isSolid){
+		textureID = a_txtID;
+		sideTextureID = a_sideTxtID;
+		ArrayList<String> tmpTxtList = GameParameters.GetIdToTxt();
+		try {
+			texture = new Texture(tmpTxtList.get(a_txtID));
+			tmpTxtList = GameParameters.GetIdToSideTxt();
+			sideTexture = new Texture(tmpTxtList.get(a_sideTxtID));
+		} catch (Exception e) {
+			System.out.println("catched");
+			texture = new Texture("missingtxt.png");
+			sideTexture = new Texture("missingtxt.png");
+		}
+		
 		collision_boxes = new ArrayList<CollisionRect>();
 		if (a_isSolid)
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
 	
-	public Tile(String a_path, String a_sidePath, boolean a_isSolid) {
-		texture = new Texture(a_path);
-		textureName = a_path;
-		sideTexture = new Texture(a_sidePath);
-		sideTextureName = a_sidePath;
-		collision_boxes = new ArrayList<CollisionRect>();
-		if (a_isSolid)
-			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
-	}
 	
 	public Tile(){
+		textureID = 0;
+		sideTextureID = 0;
+		
 		texture = new Texture("missingtxt.png");
-		textureName = "missingtxt.png";
+		
 		sideTexture = new Texture("missingtxt.png");
-		sideTextureName = "missingtxt.png";
+		
 		collision_boxes = new ArrayList<CollisionRect>();
 		collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
@@ -96,12 +109,14 @@ public class Tile {
 		return (new Vector3((int)(a_worldSpaceDimX / tileSize), (int)(a_worldSpaceDimY / tileSize), (int)(a_worldSpaceDimZ / tileSize)));
 	}
 	
-	public String getTextureName() {
-		return textureName;
+	public int getSideTextureID() {
+		return sideTextureID;
 	}
 	
-	public String getSideTextureName() {
-		return sideTextureName;
+	public int getTextureID() {
+		return textureID;
 	}
+	
+	
 	
 }

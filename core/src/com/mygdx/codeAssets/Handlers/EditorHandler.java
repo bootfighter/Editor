@@ -1,8 +1,5 @@
 package com.mygdx.codeAssets.Handlers;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,17 +26,17 @@ public class EditorHandler {
 	Vector3 drawPoint2;
 	Vector3 currentMousePosition;
 	Tile[][][] currentTileSubsection;
+	Tile currentTile;
 	
-	
-	TileHandler tileHandler;
 	OrthographicCamera camera;
 	MapHandler mapHandler;
+	UIHandler uiHandler;
 	
-	
-	public EditorHandler( MapHandler a_mapHandler) {
+	public EditorHandler(MapHandler a_mapHandler, UIHandler a_UIHandler) {
 		currentZoomFactor = 0;
 		camPosX = 0;
 		upPosY = 0;
+		uiHandler = a_UIHandler;
 		mapHandler = a_mapHandler;
 		currentTileSubsection = new Tile[0][0][0];
 		
@@ -49,13 +46,6 @@ public class EditorHandler {
 		drawPoint1 = new Vector3(0, 0, 0);
 		drawPoint2 = new Vector3(0, 0, 0);
 		
-		try {
-			tileHandler = new TileHandler(new File("../core/assets/tiles.txt"));
-		} catch (IOException e) {
-			System.out.println("No Tiles.txt found!");
-			e.printStackTrace();
-			return;
-		}
 	}
 	
 	public void setOrthoCamera(OrthographicCamera a_camera){
@@ -98,8 +88,8 @@ public class EditorHandler {
 				endPosition.y++;
 			
 			currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
-			
-			mapHandler.getCurrentMap().fillWithTile(tileHandler.getSelectedTile(), startPosition, endPosition);
+			currentTile = new Tile(uiHandler.getCurrentSelectedTextureID(), uiHandler.getCurrentSelectedSideTextureID(), true);
+			mapHandler.getCurrentMap().fillWithTile(currentTile, startPosition, endPosition);
 			
 			break;
 		case Buttons.RIGHT:
@@ -154,13 +144,14 @@ public class EditorHandler {
 		if (paintDraging) {
 			a_batch.begin();
 			
-			
 			a_batch.setColor(1, 1, 1, 0.7f);
+			
+			currentTile = new Tile(uiHandler.getCurrentSelectedTextureID(), uiHandler.getCurrentSelectedSideTextureID(), true);
 			
 			for (int posX = 0; posX < drawPoint2.x - drawPoint1.x; posX++) {
 				for (int posY = 0; posY < drawPoint2.y - drawPoint1.y; posY++) {
 					
-					a_batch.draw(tileHandler.getSelectedTile().getTexture(), Tile.convertTileSpaceToWorldSpace(posX + (int)drawPoint1.x),
+					a_batch.draw(currentTile.getTexture(), Tile.convertTileSpaceToWorldSpace(posX + (int)drawPoint1.x),
 							Tile.convertTileSpaceToWorldSpace(posY + (int)drawPoint1.y));
 					
 				}

@@ -17,7 +17,7 @@ public abstract class FileManager {
 	public static void SaveMapToFile(GameMap a_toSave, String a_path) throws IOException {
 		
 		FileOutputStream out = new FileOutputStream(a_path);
-		
+		Tile[][][] tileList = a_toSave.getTiles();
 		
 		ArrayList<String> textureList = GameParameters.GetIdToTxt();
 		ArrayList<String> sideTextureList = GameParameters.GetIdToSideTxt();
@@ -42,10 +42,10 @@ public abstract class FileManager {
 		for(int iX = 0; iX < dimX; iX++) {
 			for(int iY = 0; iY < dimY; iY++){
 				for(int iZ = 0; iZ < dimZ; iZ++) {
-					currentTile = a_toSave.getTileAtPosition(iX, iY, iZ);
-					
-					checkId[0] = getTextureID(textureList, currentTile.getTextureName());
-					checkId[1] = getTextureID(sideTextureList, currentTile.getSideTextureName());
+					currentTile = tileList[iX][iY][iZ];
+							
+					checkId[0] = currentTile.getTextureID();
+					checkId[1] = currentTile.getSideTextureID();
 
 					bufferArray[iX][iY][iZ] = CheckId(checkId, idList);
 				}

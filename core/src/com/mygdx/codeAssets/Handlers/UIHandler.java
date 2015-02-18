@@ -18,10 +18,16 @@ public class UIHandler {
 	BitmapFont font;
 	Matrix4 normalProjection;
 	
+	private int currentSelectedTextureID;
+	private int currentSelectedSideTextureID;
+	
 	public UIHandler() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
+		currentSelectedTextureID = 0;
+		currentSelectedSideTextureID = 0;
+		
 		initiate();
 	}
 	
@@ -76,6 +82,9 @@ public class UIHandler {
 	
 	public void update() {
 		
+		currentSelectedTextureID = ((UITextureField)elementList[0]).getCurrentID();
+		currentSelectedSideTextureID = ((UITextureField)elementList[1]).getCurrentID();
+		
 		((UIText)elementList[2]).setText("x | y | z");
 		
 	}
@@ -84,6 +93,14 @@ public class UIHandler {
 		setElementPositions(a_XSize, a_YSize);
 		normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 		batch.setProjectionMatrix(normalProjection);
+	}
+	
+	public int getCurrentSelectedTextureID() {
+		return currentSelectedTextureID;
+	}
+	
+	public int getCurrentSelectedSideTextureID() {
+		return currentSelectedSideTextureID;
 	}
 	
 }

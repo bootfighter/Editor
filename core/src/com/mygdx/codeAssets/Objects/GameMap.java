@@ -254,4 +254,9 @@ public class GameMap {
 		a_batch.end();
 	}
 	
+	public Tile[][][] getTiles() {
+		return tileList;
+	}
+	
+	
 }

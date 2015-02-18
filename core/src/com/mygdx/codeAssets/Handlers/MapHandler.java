@@ -14,16 +14,14 @@ public class MapHandler {
 	public MapHandler() {
 		currentMap = lastMap = new GameMap(GameParameters.mapSizeX, GameParameters.mapSizeY, GameParameters.mapSizeZ);
 		
-		Tile airTile = new Tile("air.png", "air.png", false);
-		Tile rasterTile = new Tile("raster.png", "air.png", false);
-		Tile grassTile = new Tile("grass2.png", "dirt.png", false);
+		Tile airTile = new Tile(5, 1, false);
+		Tile rasterTile = new Tile(6, 1, false);
 		
 		currentMap.fillWithTile(airTile);
 		
 		currentMap.fillWithTile(rasterTile, new Vector3(0, 0, 0), new Vector3(GameParameters.mapSizeX -1 ,GameParameters.mapSizeY - 1 ,0));
 		//currentMap.fillWithTile(new Tile(new Texture("dirt.png"), false), new Vector3(0, 0, 0), new Vector3(2,2,0)); 
 		
-		currentMap.setTileAtPosition(grassTile, new Vector3(2,2,1));
 		
 	}
 	
