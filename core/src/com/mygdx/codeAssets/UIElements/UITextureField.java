@@ -69,6 +69,21 @@ public class UITextureField extends UIElement {
 		switch (a_button) {
 		case Buttons.LEFT:
 			if (isInBounds(a_screenX, a_screenY)) {
+				return true;
+			}
+			break;
+		default:
+			return false;
+		}
+		return false;
+	}
+	
+
+	@Override
+	public boolean touchUp(int a_screenX, int a_screenY, int a_button) {
+		switch (a_button) {
+		case Buttons.LEFT:
+			if (isInBounds(a_screenX, a_screenY)) {
 				a_screenY = Gdx.graphics.getHeight() - a_screenY;
 
 				currentID = (int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset);
@@ -100,10 +115,6 @@ public class UITextureField extends UIElement {
 	}
 
 
-	@Override
-	public boolean touchUp(int a_screenX, int a_screenY, int a_button) {
-		return false;
-	}
 
 
 	@Override

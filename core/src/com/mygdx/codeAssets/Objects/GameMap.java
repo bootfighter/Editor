@@ -1,6 +1,8 @@
 package com.mygdx.codeAssets.Objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.Editor.GameParameters;
 
@@ -10,6 +12,8 @@ public class GameMap {
 	private int dimensionX;
 	private int dimensionY;
 	private int dimensionZ;
+	private Vector2 drawPoint1;
+	private Vector2 drawPoint2;
 
 	// Constructors
 	public GameMap(int a_dimensionX, int a_dimensionY, int a_dimensionZ) {
@@ -17,6 +21,10 @@ public class GameMap {
 		dimensionX = a_dimensionX;
 		dimensionY = a_dimensionY;
 		dimensionZ = a_dimensionZ;
+		
+		drawPoint1 = new Vector2(0, 0);
+		drawPoint2 = new Vector2(0, 0);
+		
 		if(isPositiv(a_dimensionX, a_dimensionY, a_dimensionZ))
 			tileList = new Tile[dimensionX][dimensionY][dimensionZ];
 		else{
@@ -143,8 +151,6 @@ public class GameMap {
 		sortPoints(point1, point2);
 		point1 = convertToInbounds(point1);
 		point2 = convertToInbounds(point2);
-		System.out.println("pre: " + a_point1 + " " +a_point2);
-		System.out.println("pos: " + point1 + " " +point2);
 		
 		for (int i = (int) point1.x; i < point2.x; i++) {
 
@@ -217,24 +223,33 @@ public class GameMap {
 	}
 	
 	
-	public void draw(SpriteBatch a_batch) {
+	public void draw(SpriteBatch a_batch, float a_zoom, Vector3 a_cameraPosition) {
 
 		a_batch.begin();
 
-		for (int dimX = 0; dimX < dimensionX; dimX++) {
+		drawPoint1.x = (a_cameraPosition.x - ((float)Gdx.graphics.getWidth() / 2) * a_zoom);
+		drawPoint1.y = (a_cameraPosition.y - ((float)Gdx.graphics.getHeight() / 2) * a_zoom);
+		drawPoint2.x = (a_cameraPosition.x + ((float)Gdx.graphics.getWidth() / 2) * a_zoom);
+		drawPoint2.y = (a_cameraPosition.y + ((float)Gdx.graphics.getHeight() / 2) * a_zoom);
 
-			for (int dimY = dimensionY - 1; dimY >= 0; dimY--) {
+		drawPoint1.x = Tile.convertWorldSpaceToTileSpace((int)drawPoint1.x) - 5;
+		drawPoint1.y = Tile.convertWorldSpaceToTileSpace((int)drawPoint1.y) - 5;
+		drawPoint2.x = Tile.convertWorldSpaceToTileSpace((int)drawPoint2.x) + 5;
+		drawPoint2.y = Tile.convertWorldSpaceToTileSpace((int)drawPoint2.y) + 5;
+
+
+
+		for (int dimX = (int)drawPoint1.x; dimX < drawPoint2.x; dimX++) {
+
+			for (int dimY = (int)drawPoint1.y; dimY < drawPoint2.y; dimY++) {
 
 				for (int dimZ = 0; dimZ < dimensionZ; dimZ++) {
 
-					if(dimZ > 0){
-						a_batch.draw(tileList[dimX][dimY][dimZ].getSideTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + (dimZ -1) * GameParameters.tileHightOffset);
+					if(isInbounds(dimX, dimY, dimZ)){
+						a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize);
 					}
-					a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + dimZ  * GameParameters.tileHightOffset);
 				}
-
 			}
-
 		}
 		a_batch.end();
 	}

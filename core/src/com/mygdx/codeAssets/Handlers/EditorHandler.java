@@ -154,6 +154,7 @@ public class EditorHandler {
 		if (paintDraging) {
 			a_batch.begin();
 			
+			
 			a_batch.setColor(1, 1, 1, 0.7f);
 			
 			for (int posX = 0; posX < drawPoint2.x - drawPoint1.x; posX++) {

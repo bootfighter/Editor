@@ -52,7 +52,7 @@ public class RenderHandler {
 		orthoCamera.update();
 		batch.setProjectionMatrix(orthoCamera.combined);
 	
-		mapHandler.draw(batch);
+		mapHandler.draw(batch, orthoCamera.zoom, orthoCamera.position);
 		
 		editorHandler.draw(batch);
 		

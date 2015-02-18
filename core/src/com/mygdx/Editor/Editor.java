@@ -26,20 +26,18 @@ public class Editor extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		
-		batch = new SpriteBatch();
-		
-		
+		batch = new SpriteBatch();		
 		
 		mapHandler = new MapHandler();
 		uiHandler = new UIHandler();
 		editorHandler = new EditorHandler(mapHandler);
 		renderHandler = new RenderHandler(mapHandler, uiHandler, editorHandler, batch);
 		eventHandler = new EventHandler(mapHandler, uiHandler, renderHandler, editorHandler);
-		
+	
 		editorHandler.setOrthoCamera(renderHandler.getOrthoCamera());
-		
+			
 		Gdx.input.setInputProcessor(eventHandler);
+		
 		
 		try {
 			FileManager.SaveMapToFile(mapHandler.getCurrentMap(), "../core/assets/test.txt");
@@ -47,6 +45,7 @@ public class Editor extends ApplicationAdapter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override
