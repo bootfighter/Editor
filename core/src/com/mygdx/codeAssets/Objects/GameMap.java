@@ -33,7 +33,7 @@ public class GameMap {
 			dimensionZ = 1;
 			tileList = new Tile[dimensionX][dimensionY][dimensionZ];
 		}
-		fillWithTile(new Tile());
+
 	}
 
 	public GameMap() {
@@ -42,8 +42,6 @@ public class GameMap {
 		dimensionY = 1;
 		dimensionZ = 1;
 		tileList = new Tile[dimensionX][dimensionY][dimensionZ];
-
-		fillWithTile(new Tile());
 
 	}
 
@@ -152,11 +150,11 @@ public class GameMap {
 		point1 = convertToInbounds(point1);
 		point2 = convertToInbounds(point2);
 		
-		for (int i = (int) point1.x; i < point2.x; i++) {
+		for (int i = (int) point1.x; i <= point2.x; i++) {
 
-			for (int j = (int) point1.y; j < point2.y; j++) {
+			for (int j = (int) point1.y; j <= point2.y; j++) {
 
-				for (int k = (int) point1.z; k < point2.z + 1; k++) {
+				for (int k = (int) point1.z; k <= point2.z ; k++) {
 					tileList[i][j][k] = a_tile;
 				}
 			}
@@ -226,7 +224,7 @@ public class GameMap {
 	public void draw(SpriteBatch a_batch, float a_zoom, Vector3 a_cameraPosition) {
 
 		a_batch.begin();
-
+		
 		drawPoint1.x = (a_cameraPosition.x - ((float)Gdx.graphics.getWidth() / 2) * a_zoom);
 		drawPoint1.y = (a_cameraPosition.y - ((float)Gdx.graphics.getHeight() / 2) * a_zoom);
 		drawPoint2.x = (a_cameraPosition.x + ((float)Gdx.graphics.getWidth() / 2) * a_zoom);
@@ -246,7 +244,9 @@ public class GameMap {
 				for (int dimZ = 0; dimZ < dimensionZ; dimZ++) {
 
 					if(isInbounds(dimX, dimY, dimZ)){
-						a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize);
+						if (tileList[dimX][dimY][dimZ].getTextureID() != 1) {
+							a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize);
+						}
 					}
 				}
 			}

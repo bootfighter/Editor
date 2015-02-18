@@ -57,9 +57,7 @@ public class RenderHandler {
 		editorHandler.draw(batch);
 		
 		uiHandler.draw();
-		
-		
-		
+
 	}	
 	
 	

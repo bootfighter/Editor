@@ -37,6 +37,8 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		
+		editorHandler.keyDown(keycode);
+		
 		return false;
 	}
 

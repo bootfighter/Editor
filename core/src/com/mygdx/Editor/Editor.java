@@ -1,7 +1,5 @@
 package com.mygdx.Editor;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +10,6 @@ import com.mygdx.codeAssets.Handlers.EventHandler;
 import com.mygdx.codeAssets.Handlers.MapHandler;
 import com.mygdx.codeAssets.Handlers.RenderHandler;
 import com.mygdx.codeAssets.Handlers.UIHandler;
-import com.mygdx.fileManagement.FileManager;
 
 
 public class Editor extends ApplicationAdapter {
@@ -37,15 +34,6 @@ public class Editor extends ApplicationAdapter {
 		editorHandler.setOrthoCamera(renderHandler.getOrthoCamera());
 			
 		Gdx.input.setInputProcessor(eventHandler);
-		
-		
-		try {
-			FileManager.SaveMapToFile(mapHandler.getCurrentMap(), "../core/assets/test.txt");
-			FileManager.loadMapFromFile("../core/assets/test.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	@Override
