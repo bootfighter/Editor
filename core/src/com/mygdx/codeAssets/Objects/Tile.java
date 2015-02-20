@@ -57,6 +57,14 @@ public class Tile {
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
 	
+	public Tile(Tile a_tile) {
+		texture = a_tile.getTexture();
+		sideTexture = a_tile.getSideTexture();
+		textureID = a_tile.getTextureID();
+		sideTextureID = a_tile.getSideTextureID();
+		collision_boxes = a_tile.getCollision_boxes();
+	}
+	
 	
 	public Tile(){
 		textureID = 0;

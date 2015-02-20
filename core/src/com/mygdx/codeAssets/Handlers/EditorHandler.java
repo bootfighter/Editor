@@ -18,6 +18,8 @@ public class EditorHandler {
 	float upPosY;
 	int moveTouchX;
 	int moveTouchY;
+	
+	int currentZLevel;
 
 	boolean moveDraging;
 	boolean paintDraging = false;
@@ -37,6 +39,7 @@ public class EditorHandler {
 		currentZoomFactor = 0;
 		camPosX = 0;
 		upPosY = 0;
+		currentZLevel = 0;
 		uiHandler = a_UIHandler;
 		mapHandler = a_mapHandler;
 		currentTileSubsection = new Tile[0][0][0];
@@ -52,6 +55,10 @@ public class EditorHandler {
 	
 	public void setOrthoCamera(OrthographicCamera a_camera){
 		camera = a_camera;
+	}
+	
+	public int getCurrentZLevel(){
+		return currentZLevel;
 	}
 	
 	public void touchDown(int screenX, int screenY, int button){
@@ -86,8 +93,6 @@ public class EditorHandler {
 			
 			mapHandler.getCurrentMap().fillWithTile(currentTile, startPosition, endPosition);
 			
-			System.out.println(endPosition);
-			
 			break;
 		case Buttons.RIGHT:
 			moveDraging = false;
@@ -114,13 +119,24 @@ public class EditorHandler {
 				mapHandler.loadMap("This_is_cool.txt");
 			}
 			break;
+		case Keys.MINUS:
+			if (currentZLevel > 0) {
+				currentZLevel--;
+				mouseMoved((int)currentMousePosition.x, (int)currentMousePosition.y); //recalculating current mouse pos
+			}
+			break;
+		case Keys.PLUS:
+			if (currentZLevel < mapHandler.getCurrentMap().getDimensionZ()) {
+				currentZLevel++;				
+				mouseMoved((int)currentMousePosition.x, (int)currentMousePosition.y); //recalculating current mouse pos
+			}
+			break;
 		default:
 			return false;
 		}
 		
 		return true;
 	}
-	
 	
 	public boolean touchDragged(int a_screenX, int a_screenY) {
 		
@@ -132,7 +148,7 @@ public class EditorHandler {
 			moveTouchY = a_screenY;
 
 		} else if(paintDraging) {
-			currentTileSubsection = mapHandler.getTileSubsection(startPosition, currentMousePosition);
+			
 			
 		}
 		return true;
@@ -148,8 +164,11 @@ public class EditorHandler {
 		
 		currentMousePosition = Tile.convertWorldSpaceToTileSpace((int)(a_screenX * currentZoomFactor + camPosX), (int)(upPosY * currentZoomFactor + camPosY), 0);
 		
+		currentMousePosition.z = currentZLevel;
+		
 		currentMousePosition = mapHandler.getCurrentMap().convertToInbounds(currentMousePosition);	
 		
+		uiHandler.setPositionCoordinates(currentMousePosition);
 	}
 	
 	public void draw(SpriteBatch a_batch){
@@ -169,6 +188,7 @@ public class EditorHandler {
 			
 			if (currentTile.getTextureID() != uiHandler.getCurrentSelectedTextureID() || currentTile.getSideTextureID() != uiHandler.getCurrentSelectedSideTextureID()) {
 				currentTile = new Tile(uiHandler.getCurrentSelectedTextureID(), uiHandler.getCurrentSelectedSideTextureID(), true);
+				currentTileSubsection = mapHandler.getTileSubsection(startPosition, currentMousePosition);
 			}
 	
 			for (int posX = 0; posX <= drawPoint2.x - drawPoint1.x; posX++) {

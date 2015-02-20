@@ -96,6 +96,7 @@ public abstract class FileManager {
 		
 		out.close();
 		
+	
 	}
 
 	public static GameMap loadMapFromFile(String a_path) throws IOException {
@@ -118,6 +119,7 @@ public abstract class FileManager {
 		
 		
 		in.read(byteArray);
+		
 		in.close();
 	
 		//reads dimensions from the first 12 bytes

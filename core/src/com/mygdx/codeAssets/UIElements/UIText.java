@@ -9,11 +9,13 @@ public class UIText extends UIElement {
 	private String text;
 	private BitmapFont font;
 	private BitmapFont.TextBounds bounds;
+	private boolean isMultiLine;
 	
-	public UIText(String a_text, BitmapFont a_font, boolean isMultiLine) {
+	public UIText(String a_text, BitmapFont a_font, boolean a_isMultiLine) {
 		super();
 		text = a_text;
 		font = a_font;
+		isMultiLine = a_isMultiLine;
 		if(isMultiLine)
 			bounds = font.getMultiLineBounds(text);
 		else

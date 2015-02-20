@@ -71,8 +71,7 @@ public class MapHandler {
 			System.out.println("failed to load");
 			e.printStackTrace();
 		}
-		
-		currentMap.calcTransitions();
+
 		
 	}
 	
@@ -88,7 +87,7 @@ public class MapHandler {
 		return currentMap;
 	}
 	
-	public void draw(SpriteBatch a_batch,  float a_zoom, Vector3 a_cameraPosition){
-		currentMap.draw(a_batch, a_zoom, a_cameraPosition);
+	public void draw(SpriteBatch a_batch,  float a_zoom, Vector3 a_cameraPosition, int a_currentZLevel){
+		currentMap.draw(a_batch, a_zoom, a_cameraPosition, a_currentZLevel);
 	}
 }

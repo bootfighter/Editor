@@ -2,13 +2,17 @@ package com.mygdx.codeAssets.Handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.Editor.GameParameters;
 import com.mygdx.codeAssets.Objects.UIElement;
 import com.mygdx.codeAssets.UIElements.UIText;
+import com.mygdx.codeAssets.UIElements.UITexture;
 import com.mygdx.codeAssets.UIElements.UITextureField;
 
 public class UIHandler {
@@ -17,6 +21,8 @@ public class UIHandler {
 	UIElement elementList[];
 	BitmapFont font;
 	Matrix4 normalProjection;
+	
+	private Texture xyzBackground;
 	
 	private int currentSelectedTextureID;
 	private int currentSelectedSideTextureID;
@@ -28,15 +34,21 @@ public class UIHandler {
 		currentSelectedTextureID = 0;
 		currentSelectedSideTextureID = 0;
 		
+		Pixmap backgroundPixmap = new Pixmap(120, 30, Format.RGBA8888);
+		backgroundPixmap.setColor(0.7f, 0.7f, 0.7f, 0.7f);
+		backgroundPixmap.fill();
+		xyzBackground = new Texture(backgroundPixmap);
+		
 		initiate();
 	}
 	
 	private void initiate() {
-		elementList = new UIElement[3];
+		elementList = new UIElement[4];
 		
 		elementList[0] = new UITextureField(new Texture("background.png"), font, GameParameters.GetIdToTxt());
 		elementList[1] = new UITextureField(new Texture("background.png"), font, GameParameters.GetIdToSideTxt());
-		elementList[2] = new UIText("x | y | z", font, false);
+		elementList[2] = new UITexture(xyzBackground);
+		elementList[3] = new UIText("x | y | z", font, false);
 		
 		setElementPositions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
@@ -45,7 +57,8 @@ public class UIHandler {
 	private void setElementPositions(int a_width, int a_height){
 		elementList[0].setPosition(0, a_height - 320);
 		elementList[1].setPosition(0, a_height - 650);
-		elementList[2].setPosition(a_width - elementList[2].getWidth() - 10 , elementList[2].getHeight() + 10);
+		elementList[2].setPosition(a_width - elementList[2].getWidth(), 0);
+		elementList[3].setPosition(a_width - elementList[3].getWidth() - 70 , elementList[3].getHeight() + 10);
 	}
 	
 	public void draw(){
@@ -85,8 +98,10 @@ public class UIHandler {
 		currentSelectedTextureID = ((UITextureField)elementList[0]).getCurrentID();
 		currentSelectedSideTextureID = ((UITextureField)elementList[1]).getCurrentID();
 		
-		((UIText)elementList[2]).setText("x | y | z");
-		
+	}
+
+	public void setPositionCoordinates(Vector3 a_posCoords){
+		((UIText)elementList[3]).setText((int)a_posCoords.x + " | " + (int)a_posCoords.y + " | " + (int)a_posCoords.z);
 	}
 	
 	public void resize(int a_XSize, int a_YSize) {

@@ -91,8 +91,6 @@ public class UITextureField extends UIElement {
 				if (currentID > textureList.size() - 1 || currentID < 0) {
 					currentID = -1;
 				}
-				
-				System.out.println(currentID);
 				return true;
 			}
 			break;

@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -233,7 +232,7 @@ public class GameMap {
 	}
 	
 	
-	public void draw(SpriteBatch a_batch, float a_zoom, Vector3 a_cameraPosition) {
+	public void draw(SpriteBatch a_batch, float a_zoom, Vector3 a_cameraPosition, int currentZLevel) {
 
 		a_batch.begin();
 		
@@ -248,21 +247,37 @@ public class GameMap {
 		drawPoint2.y = Tile.convertWorldSpaceToTileSpace((int)drawPoint2.y) + 5;
 
 
+		for (int dimZ = 0; dimZ < dimensionZ; dimZ++) {
+			if(dimZ > currentZLevel)
+				a_batch.setColor(1, 1, 1, 0.3f);
+			for (int dimX = (int)drawPoint1.x; dimX < drawPoint2.x; dimX++) {
 
-		for (int dimX = (int)drawPoint1.x; dimX < drawPoint2.x; dimX++) {
+				for (int dimY = (int)drawPoint2.y; dimY > drawPoint1.y; dimY--) {
 
-			for (int dimY = (int)drawPoint1.y; dimY < drawPoint2.y; dimY++) {
 
-				for (int dimZ = 0; dimZ < dimensionZ; dimZ++) {
 
 					if(isInbounds(dimX, dimY, dimZ)){
+
 						if (tileList[dimX][dimY][dimZ].getTextureID() != 1) {
-							a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize);
+
+
+
+							a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
+									(dimZ - currentZLevel) * GameParameters.tileHightOffset);
+
+							if (dimY > 0 && tileList[dimX][dimY - 1][dimZ].getTextureID() == 1) {
+								a_batch.draw(tileList[dimX][dimY][dimZ].getSideTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
+										(dimZ - 1 - currentZLevel) * GameParameters.tileHightOffset);
+							}
+
 						}
+
 					}
+
 				}
 			}
 		}
+		a_batch.setColor(1, 1, 1, 1);
 		a_batch.end();
 	}
 	
@@ -274,10 +289,10 @@ public class GameMap {
 	public void calcTransitions() {
 		
 		boolean idUsed = false;
+		int north;
 		int east;
 		int south;
 		int west;
-		int north;
 		int overlayId[] = new int[4];
 		Texture overlay;
 		
@@ -362,13 +377,14 @@ public class GameMap {
 	
 	private Pixmap calcOverlay(int[] a_overlayId) {
 		
-		Pixmap overlay = new Pixmap(new FileHandle("../core/assets/overlay0.png"));
+		Pixmap overlay = new Pixmap(Gdx.files.internal("overlay0.png"));
 		Pixmap overlaySegment;
 		ByteBuffer test;
 		byte[] out;
 		
 		if(a_overlayId[0] != -1) {
-			overlaySegment = new Pixmap(new FileHandle("../core/assets/overlay1.png"));
+			overlaySegment = new Pixmap(Gdx.files.internal("overlay1.png"));
+			
 			
 			
 			
@@ -388,11 +404,5 @@ public class GameMap {
 		
 		return overlay;
 	}
-	
-	
-	
-	
-	
-	
 	
 }
