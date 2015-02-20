@@ -265,7 +265,8 @@ public class GameMap {
 									(dimZ - currentZLevel) * GameParameters.tileHightOffset);
 							//overlay
 							if(tileList[dimX][dimY][dimZ].getOverlay() != null)
-								a_batch.draw(tileList[dimX][dimY][dimZ].getOverlay(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize);
+								a_batch.draw(tileList[dimX][dimY][dimZ].getOverlay(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize +
+										(dimZ - currentZLevel) * GameParameters.tileHightOffset);
 							//side texture
 							if (dimY > 0 && tileList[dimX][dimY - 1][dimZ].getTextureID() == 1) {
 								a_batch.draw(tileList[dimX][dimY][dimZ].getSideTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
@@ -312,25 +313,25 @@ public class GameMap {
 					
 					if(iY + 1 < dimensionY) {
 						overlayId[0] = tileList[iX][iY + 1][iZ].getTextureID();
-						if(overlayId[0] == tileList[iX][iY][iZ].getTextureID())
+						if(overlayId[0] == tileList[iX][iY][iZ].getTextureID() || overlayId[0] == 1)
 							overlayId[0] = -1;
 					}
 					
 					if(iX + 1 < dimensionX) {
 						overlayId[1] = tileList[iX + 1][iY][iZ].getTextureID();
-						if(overlayId[1] == tileList[iX][iY][iZ].getTextureID())
+						if(overlayId[1] == tileList[iX][iY][iZ].getTextureID() || overlayId[1] == 1)
 							overlayId[1] = -1;
 					}
 					
 					if(iY - 1 >= 0) {
 						overlayId[2] = tileList[iX][iY - 1][iZ].getTextureID();
-						if(overlayId[2] == tileList[iX][iY][iZ].getTextureID())
+						if(overlayId[2] == tileList[iX][iY][iZ].getTextureID() || overlayId[2] == 1)
 							overlayId[2] = -1;
 					}
 				
 					if(iX - 1 >= 0) { 
 						overlayId[3] = tileList[iX - 1][iY][iZ].getTextureID();
-						if(overlayId[3] == tileList[iX][iY][iZ].getTextureID())
+						if(overlayId[3] == tileList[iX][iY][iZ].getTextureID() || overlayId[3] == 1)
 							overlayId[3] = -1;
 					}
 
