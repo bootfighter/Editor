@@ -11,6 +11,7 @@ public class Tile {
 	
 	private Texture texture; 
 	private Texture sideTexture;
+	private Texture overlay;
 	private int textureID;
 	private int sideTextureID;
 	private ArrayList<CollisionRect> collision_boxes;
@@ -115,6 +116,10 @@ public class Tile {
 	
 	public int getTextureID() {
 		return textureID;
+	}
+	
+	public void setOverlay(Texture a_overlay) {
+		overlay = a_overlay;
 	}
 	
 	

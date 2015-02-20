@@ -1,6 +1,12 @@
 package com.mygdx.codeAssets.Objects;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -14,6 +20,10 @@ public class GameMap {
 	private int dimensionZ;
 	private Vector2 drawPoint1;
 	private Vector2 drawPoint2;
+	
+	private ArrayList<int[]> overlayIds;
+	private ArrayList<Texture> overlays;
+	
 
 	// Constructors
 	public GameMap(int a_dimensionX, int a_dimensionY, int a_dimensionZ) {
@@ -33,6 +43,8 @@ public class GameMap {
 			dimensionZ = 1;
 			tileList = new Tile[dimensionX][dimensionY][dimensionZ];
 		}
+		overlayIds = new ArrayList<int[]>();
+		overlays = new ArrayList<Texture>();
 
 	}
 
@@ -257,6 +269,130 @@ public class GameMap {
 	public Tile[][][] getTiles() {
 		return tileList;
 	}
+	
+	
+	public void calcTransitions() {
+		
+		boolean idUsed = false;
+		int east;
+		int south;
+		int west;
+		int north;
+		int overlayId[] = new int[4];
+		Texture overlay;
+		
+		
+		for (int iX = 0; iX < dimensionX; iX++) {
+
+			for (int iY = 0; iY < dimensionY; iY++) {
+
+				for (int iZ = 0; iZ < dimensionZ ; iZ++) {
+					
+					if(idUsed)
+						overlayId = new int[4];
+					
+					//-1 = no overlay
+					east = -1;
+					south = -1;
+					west = -1;
+					north = -1;
+					
+					if(iX + 1 < dimensionX) {
+						east = tileList[iX + 1][iY][iZ].getTextureID();
+						if(east == tileList[iX][iY][iZ].getTextureID())
+							east = -1;
+					}
+					overlayId[0] = east;
+					
+					if(iY - 1 >= 0) {
+						south = tileList[iX][iY - 1][iZ].getTextureID();
+						if(south == tileList[iX][iY][iZ].getTextureID())
+							south = -1;
+					}
+					overlayId[1]= south;	
+				
+					if(iX - 1 >= 0) { 
+						west = tileList[iX - 1][iY][iZ].getTextureID();
+						if(west == tileList[iX][iY][iZ].getTextureID())
+							west = -1;
+					}
+					overlayId[2] = west;
+					
+					if(iY + 1 < dimensionY) {
+						north = tileList[iX][iY + 1][iZ].getTextureID();
+						if(north == tileList[iX][iY][iZ].getTextureID())
+							north = -1;
+					}
+					overlayId[3] = north;
+					
+					idUsed = true;
+					
+					for (int usedIdIndex = 0; usedIdIndex < overlayIds.size(); usedIdIndex++) {
+						
+						if(overlayIds.get(usedIdIndex).equals(overlayId)) {
+							
+							tileList[iX][iY][iZ].setOverlay(overlays.get(usedIdIndex));
+							idUsed = false;
+						}
+					}
+					
+					if(idUsed) {
+						overlayIds.add(overlayId);
+						
+						
+						
+						
+						overlay = new Texture(calcOverlay(overlayId));
+						
+						
+						overlays.add(overlay);
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+			}
+		}	
+	}
+	
+	private Pixmap calcOverlay(int[] a_overlayId) {
+		
+		Pixmap overlay = new Pixmap(new FileHandle("../core/assets/overlay0.png"));
+		Pixmap overlaySegment;
+		ByteBuffer test;
+		byte[] out;
+		
+		if(a_overlayId[0] != -1) {
+			overlaySegment = new Pixmap(new FileHandle("../core/assets/overlay1.png"));
+			
+			
+			
+		}
+		
+		test = overlay.getPixels();
+		
+		out = test.array();
+		
+		for (int i = 0; i < out.length; i++) {
+			System.out.println(out[i]);
+		}
+		
+		
+		
+		
+		
+		return overlay;
+	}
+	
+	
+	
+	
+	
 	
 	
 }

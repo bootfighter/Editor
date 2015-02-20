@@ -72,6 +72,8 @@ public class MapHandler {
 			e.printStackTrace();
 		}
 		
+		currentMap.calcTransitions();
+		
 	}
 	
 	public Tile getTile(Vector3 a_tilePosition) {
