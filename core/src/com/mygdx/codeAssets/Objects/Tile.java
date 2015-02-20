@@ -2,6 +2,7 @@ package com.mygdx.codeAssets.Objects;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -24,6 +25,7 @@ public class Tile {
 	public Tile(int a_txtID, int a_sideTxtID, ArrayList<CollisionRect> a_collision_boxes){
 		textureID = a_txtID;
 		sideTextureID = a_sideTxtID;
+		overlay = null;
 		ArrayList<String> tmpTxtList = GameParameters.GetIdToTxt();
 		try {
 			texture = new Texture(tmpTxtList.get(a_txtID));
@@ -41,6 +43,7 @@ public class Tile {
 	public Tile(int a_txtID, int a_sideTxtID, boolean a_isSolid){
 		textureID = a_txtID;
 		sideTextureID = a_sideTxtID;
+		overlay = null;
 		ArrayList<String> tmpTxtList = GameParameters.GetIdToTxt();
 		try {
 			texture = new Texture(tmpTxtList.get(a_txtID));
@@ -57,11 +60,20 @@ public class Tile {
 			collision_boxes.add(new CollisionRect(new Vector2(0, 0), new Vector2(tileSize, tileSize)));
 	}
 	
+	public Tile(Tile a_tile) {
+		texture = a_tile.getTexture();
+		sideTexture = a_tile.getSideTexture();
+		textureID = a_tile.getTextureID();
+		sideTextureID = a_tile.getSideTextureID();
+		collision_boxes = a_tile.getCollision_boxes();
+		overlay = null;
+	}
+	
 	
 	public Tile(){
 		textureID = 0;
 		sideTextureID = 0;
-		
+		overlay = null;
 		texture = new Texture("missingtxt.png");
 		
 		sideTexture = new Texture("missingtxt.png");
@@ -120,6 +132,10 @@ public class Tile {
 	
 	public void setOverlay(Texture a_overlay) {
 		overlay = a_overlay;
+	}
+	
+	public Texture getOverlay() {
+		return overlay;
 	}
 	
 	

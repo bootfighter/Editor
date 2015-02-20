@@ -65,14 +65,14 @@ public class MapHandler {
 		try {
 			long time = System.currentTimeMillis();
 			currentMap = FileManager.loadMapFromFile(a_name);
+			currentMap.calcTransitions();
 			System.out.println("LoadTime: " + (System.currentTimeMillis() - time));
-			
 		} catch (IOException e) {
 			System.out.println("failed to load");
 			e.printStackTrace();
 		}
 		
-		currentMap.calcTransitions();
+		
 		
 	}
 	

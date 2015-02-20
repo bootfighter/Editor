@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class GameParameters {
 	public static final int tileSize = 16;
 	public static final float collisionIteration = 1.0f;
-	public static final int mapSizeX = 10;
-	public static final int mapSizeY = 10;
-	public static final int mapSizeZ = 20;
+	public static final int mapSizeX = 500;
+	public static final int mapSizeY = 500;
+	public static final int mapSizeZ = 1;
 	public static final int tileHightOffset = 8;
 	
 	public static String mapFolderPath = "../core/assets/";
