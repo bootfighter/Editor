@@ -8,6 +8,7 @@ public class GameParameters {
 	public static final int mapSizeX = 200;
 	public static final int mapSizeY = 200;
 	public static final int mapSizeZ = 5;
+
 	public static final int tileHightOffset = 8;
 	
 	public static String mapFolderPath = "../core/assets/";

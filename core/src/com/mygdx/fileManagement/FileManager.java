@@ -159,7 +159,7 @@ public abstract class FileManager {
 				for(int iZ = 0; iZ < dimZ; iZ++) {
 					currentID = arrayToInt(byteArray, currentByteIndex, 2);
 					currentByteIndex += 2;
-					map.setTileAtPosition(tileList.get(currentID), iX, iY, iZ);
+					map.setTileAtPosition(new Tile(tileList.get(currentID)), iX, iY, iZ);
 				}
 			}
 		}

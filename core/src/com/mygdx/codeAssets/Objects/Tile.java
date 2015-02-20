@@ -24,6 +24,7 @@ public class Tile {
 	public Tile(int a_txtID, int a_sideTxtID, ArrayList<CollisionRect> a_collision_boxes){
 		textureID = a_txtID;
 		sideTextureID = a_sideTxtID;
+		overlay = null;
 		ArrayList<String> tmpTxtList = GameParameters.GetIdToTxt();
 		try {
 			texture = new Texture(tmpTxtList.get(a_txtID));
@@ -41,6 +42,7 @@ public class Tile {
 	public Tile(int a_txtID, int a_sideTxtID, boolean a_isSolid){
 		textureID = a_txtID;
 		sideTextureID = a_sideTxtID;
+		overlay = null;
 		ArrayList<String> tmpTxtList = GameParameters.GetIdToTxt();
 		try {
 			texture = new Texture(tmpTxtList.get(a_txtID));
@@ -63,13 +65,14 @@ public class Tile {
 		textureID = a_tile.getTextureID();
 		sideTextureID = a_tile.getSideTextureID();
 		collision_boxes = a_tile.getCollision_boxes();
+		overlay = null;
 	}
 	
 	
 	public Tile(){
 		textureID = 0;
 		sideTextureID = 0;
-		
+		overlay = null;
 		texture = new Texture("missingtxt.png");
 		
 		sideTexture = new Texture("missingtxt.png");
@@ -128,6 +131,10 @@ public class Tile {
 	
 	public void setOverlay(Texture a_overlay) {
 		overlay = a_overlay;
+	}
+	
+	public Texture getOverlay() {
+		return overlay;
 	}
 	
 	
