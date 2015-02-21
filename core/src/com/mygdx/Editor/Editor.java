@@ -32,7 +32,7 @@ public class Editor extends ApplicationAdapter {
 		eventHandler = new EventHandler(mapHandler, uiHandler, renderHandler, editorHandler);
 	
 		editorHandler.setOrthoCamera(renderHandler.getOrthoCamera());
-			
+		
 		Gdx.input.setInputProcessor(eventHandler);
 	}
 
@@ -49,6 +49,12 @@ public class Editor extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		renderHandler.resize(width, height);
+	}
+	
+	@Override
+	public void dispose() {
+		
+		super.dispose();
 	}
 	
 }

@@ -126,7 +126,7 @@ public class EditorHandler {
 			}
 			break;
 		case Keys.PLUS:
-			if (currentZLevel < mapHandler.getCurrentMap().getDimensionZ()) {
+			if (currentZLevel < mapHandler.getCurrentMap().getDimensionZ() - 1) {
 				currentZLevel++;				
 				mouseMoved((int)currentMousePosition.x, (int)currentMousePosition.y); //recalculating current mouse pos
 			}

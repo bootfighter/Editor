@@ -133,7 +133,6 @@ public abstract class FileManager {
 		//creates new GameMap instance with the read dimensions
 		map = new GameMap(dimX, dimY, dimZ);
 		
-		System.out.println(dimX + " | " + dimY + " | " + dimZ);
 		
 		//reads the ID list length (how many possible combinations are  within the current GameMap)
 		idListLength = arrayToInt(byteArray, currentByteIndex, 2);

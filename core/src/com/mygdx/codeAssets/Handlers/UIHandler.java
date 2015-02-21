@@ -9,11 +9,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.Editor.GameParameters;
 import com.mygdx.codeAssets.Objects.UIElement;
 import com.mygdx.codeAssets.UIElements.UIText;
 import com.mygdx.codeAssets.UIElements.UITexture;
 import com.mygdx.codeAssets.UIElements.UITextureField;
+import com.mygdx.fileManagement.TextureManager;
 
 public class UIHandler {
 	
@@ -39,14 +39,19 @@ public class UIHandler {
 		backgroundPixmap.fill();
 		xyzBackground = new Texture(backgroundPixmap);
 		
+		backgroundPixmap.dispose();
+		
+		
 		initiate();
 	}
 	
 	private void initiate() {
 		elementList = new UIElement[4];
 		
-		elementList[0] = new UITextureField(new Texture("background.png"), font, GameParameters.GetIdToTxt());
-		elementList[1] = new UITextureField(new Texture("background.png"), font, GameParameters.GetIdToSideTxt());
+		elementList[0] = new UITextureField(new Texture("background.png"), font, TextureManager.getTileTextureStringList(),
+				TextureManager.getTileTextureList());
+		elementList[1] = new UITextureField(new Texture("background.png"), font, TextureManager.getTileSideTextureStringList(),
+				TextureManager.getTileSideTextureList());
 		elementList[2] = new UITexture(xyzBackground);
 		elementList[3] = new UIText("x | y | z", font, false);
 		

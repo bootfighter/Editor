@@ -13,9 +13,9 @@ import com.mygdx.codeAssets.Objects.UIElement;
 
 public class UITextureField extends UIElement {
 	
-	private ArrayList<String> textureList;
+	private ArrayList<String> textureStringList;
 	private Vector2 startPoint;
-	private Texture currentTexture;
+	private ArrayList<Texture> textureList;
 	private Texture elementBackground;
 	private int scrollOffset;
 	private BitmapFont font;
@@ -23,21 +23,21 @@ public class UITextureField extends UIElement {
 	private int currentYPos;
 	private int currentID;
 	
-	public UITextureField(Texture a_background, BitmapFont a_font, ArrayList<String> a_stringList) {
+	public UITextureField(Texture a_background, BitmapFont a_font, ArrayList<String> a_stringList, ArrayList<Texture> a_textureList) {
 		super();
-		textureList = a_stringList;
+		textureStringList = a_stringList;
+		textureList = a_textureList;
 		elementBackground = a_background;
 		width = elementBackground.getWidth();
 		height = elementBackground.getHeight();
-		
-		currentTexture = new Texture("missingtxt.png");
-		
+				
 		font = a_font;
 		scrollOffset = 0;
 		currentYPos = 0;
 		currentID = 0;
 		listElementOffset = 20;
 	}
+	
 	
 	@Override
 	public void setPosition(int a_width, int a_height) {
@@ -50,15 +50,13 @@ public class UITextureField extends UIElement {
 		
 		a_batch.draw(elementBackground, position.x, position.y);
 		
-		for (int i = 0; i < textureList.size(); i++) {
+		for (int i = 0; i < textureStringList.size(); i++) {
 			
 			currentYPos = (int)(position.y + startPoint.y + scrollOffset - (i * listElementOffset));
 
 			if ( currentYPos < position.y + startPoint.y + listElementOffset && currentYPos > position.y) {
-				
-				currentTexture = new Texture(textureList.get(i));
-				a_batch.draw(currentTexture, position.x + startPoint.x, currentYPos - GameParameters.tileSize);
-				font.draw(a_batch, textureList.get(i) , position.x + startPoint.x + 20, currentYPos);
+				a_batch.draw(textureList.get(i), position.x + startPoint.x, currentYPos - GameParameters.tileSize);
+				font.draw(a_batch, textureStringList.get(i) , position.x + startPoint.x + 20, currentYPos);
 			}
 		}
 		a_batch.end();
@@ -88,7 +86,7 @@ public class UITextureField extends UIElement {
 
 				currentID = (int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset);
 				
-				if (currentID > textureList.size() - 1 || currentID < 0) {
+				if (currentID > textureStringList.size() - 1 || currentID < 0) {
 					currentID = -1;
 				}
 				return true;

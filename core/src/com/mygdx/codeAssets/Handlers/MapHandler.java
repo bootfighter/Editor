@@ -21,17 +21,12 @@ public class MapHandler {
 		System.out.println("CreationTime: " + (System.currentTimeMillis() - time));
 
 		
-		Tile rasterTile = new Tile(1, 0, false);
+		Tile airTile = new Tile(1, 0, false);
 		
+		currentMap.fillWithTile(airTile);
 		
-		
-		currentMap.fillWithTile(rasterTile);
 		currentMap.fillWithTile(new Tile(2, 1, true), new Vector3(0,0,0), new Vector3(GameParameters.mapSizeX, GameParameters.mapSizeY, 0));
-		
-		
-		//currentMap.fillWithTile(new Tile(new Texture("dirt.png"), false), new Vector3(0, 0, 0), new Vector3(2,2,0)); 
-		
-		
+
 	}
 	
 	
@@ -65,8 +60,9 @@ public class MapHandler {
 		try {
 			long time = System.currentTimeMillis();
 			currentMap = FileManager.loadMapFromFile(a_name);
-			currentMap.calcTransitions();
-			System.out.println("LoadTime: " + (System.currentTimeMillis() - time));
+			long trans = System.currentTimeMillis();
+			currentMap.calculateTransitions();
+			System.out.println("LoadTime: " + (System.currentTimeMillis() - time) + " transTime: " + (System.currentTimeMillis() - trans));
 		} catch (IOException e) {
 			System.out.println("failed to load");
 			e.printStackTrace();
