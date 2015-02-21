@@ -60,6 +60,12 @@ public abstract class UIElement {
 	
 	public abstract boolean mouseMoved(int a_screenX, int a_screenY);
 	
+	public abstract boolean keyDown(int a_button);
+
+	public abstract boolean keyUp(int a_button);
+	
+	public abstract boolean keyTyped(char a_character);
+	
 	public abstract void draw(SpriteBatch a_batch);
 	
 	public abstract void resize(int a_width, int a_height);

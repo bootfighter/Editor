@@ -9,9 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.Editor.GameParameters;
-import com.mygdx.codeAssets.Objects.UIElement;
 
-public class UITextureField extends UIElement {
+public class UITextureField extends UIElementClickable {
 	
 	private ArrayList<String> textureStringList;
 	private Vector2 startPoint;
@@ -121,6 +120,24 @@ public class UITextureField extends UIElement {
 
 	@Override
 	public void resize(int a_width, int a_height) {
+	}
+
+
+	@Override
+	public boolean keyDown(int a_button) {
+		return false;
+	}
+
+
+	@Override
+	public boolean keyUp(int a_button) {
+		return false;
+	}
+
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
 	}
 	
 }

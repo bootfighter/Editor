@@ -37,7 +37,11 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		
-		editorHandler.keyDown(keycode);
+		if (!uiHandler.keyDown(keycode)) {
+			if (editorHandler.keyDown(keycode)) {
+				return true;		
+			}
+		}
 		
 		return false;
 	}
@@ -46,13 +50,20 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		
+		if (!uiHandler.keyDown(keycode)) {
+			if (editorHandler.keyDown(keycode)) {
+				return true;		
+			}
+		}
+		
 		return false;
 	}
 
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
+		uiHandler.keyTyped(character);
+		
 		return false;
 	}
 
@@ -89,6 +100,7 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		
+		uiHandler.mouseMoved(screenX, screenY);
 		editorHandler.mouseMoved(screenX, screenY);
 		
 		currentMousePos.x = screenX;

@@ -63,4 +63,25 @@ public class UIText extends UIElement {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+	@Override
+	public boolean keyDown(int a_button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyUp(int a_button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.codeAssets.Objects.UIElement;
 import com.mygdx.codeAssets.UIElements.UIText;
+import com.mygdx.codeAssets.UIElements.UITextField;
 import com.mygdx.codeAssets.UIElements.UITexture;
 import com.mygdx.codeAssets.UIElements.UITextureField;
 import com.mygdx.fileManagement.TextureManager;
@@ -23,6 +24,7 @@ public class UIHandler {
 	Matrix4 normalProjection;
 	
 	private Texture xyzBackground;
+	private Texture textFieldBackground;
 	
 	private int currentSelectedTextureID;
 	private int currentSelectedSideTextureID;
@@ -38,7 +40,14 @@ public class UIHandler {
 		backgroundPixmap.setColor(0.7f, 0.7f, 0.7f, 0.7f);
 		backgroundPixmap.fill();
 		xyzBackground = new Texture(backgroundPixmap);
+				
+		backgroundPixmap.dispose();
 		
+		backgroundPixmap = new Pixmap(200, 40, Format.RGBA8888);
+		backgroundPixmap.setColor(0.5f, 0.5f, 0.7f, 0.7f);
+		backgroundPixmap.fill();
+		textFieldBackground = new Texture(backgroundPixmap);
+				
 		backgroundPixmap.dispose();
 		
 		
@@ -46,7 +55,7 @@ public class UIHandler {
 	}
 	
 	private void initiate() {
-		elementList = new UIElement[4];
+		elementList = new UIElement[5];
 		
 		elementList[0] = new UITextureField(new Texture("background.png"), font, TextureManager.getTileTextureStringList(),
 				TextureManager.getTileTextureList());
@@ -54,6 +63,8 @@ public class UIHandler {
 				TextureManager.getTileSideTextureList());
 		elementList[2] = new UITexture(xyzBackground);
 		elementList[3] = new UIText("x | y | z", font, false);
+
+		elementList[4] = new UITextField(textFieldBackground, font);
 		
 		setElementPositions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
@@ -64,6 +75,7 @@ public class UIHandler {
 		elementList[1].setPosition(0, a_height - 650);
 		elementList[2].setPosition(a_width - elementList[2].getWidth(), 0);
 		elementList[3].setPosition(a_width - elementList[3].getWidth() - 70 , elementList[3].getHeight() + 10);
+		elementList[4].setPosition(a_width - elementList[4].getWidth(), 50);
 	}
 	
 	public void draw(){
@@ -93,6 +105,39 @@ public class UIHandler {
 	public boolean scrolled(int a_amount, int a_screenX, int a_screenY) {
 		for (UIElement uiElement : elementList) {
 			if(uiElement.scrolled(a_amount, a_screenX, a_screenY))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean keyDown(int a_button){
+		
+		for (UIElement uiElement : elementList) {
+			if(uiElement.keyDown(a_button))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean keyUp(int a_button){
+		
+		for (UIElement uiElement : elementList) {
+			if(uiElement.keyUp(a_button))
+				return true;
+		}
+		return false;
+	}
+	
+	public void mouseMoved(int a_screenX, int a_screenY){
+		
+		for (UIElement uiElement : elementList) {
+			uiElement.mouseMoved(a_screenX, a_screenY);
+		}
+	}
+
+	public boolean keyTyped(char a_character){
+		for (UIElement uiElement : elementList) {
+			if(uiElement.keyTyped(a_character))
 				return true;
 		}
 		return false;
