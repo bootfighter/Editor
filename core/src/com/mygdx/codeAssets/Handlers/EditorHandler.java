@@ -20,7 +20,7 @@ public class EditorHandler {
 	int moveTouchY;
 	
 	int currentZLevel;
-
+	
 	boolean moveDraging;
 	boolean paintDraging = false;
 	Vector3 endPosition;
@@ -35,11 +35,23 @@ public class EditorHandler {
 	MapHandler mapHandler;
 	UIHandler uiHandler;
 	
+	brushes selectedBrush;
+	Vector3 brushSize;
+	
+	public enum brushes {
+		SQUARE,
+		BRUSH,
+		CIRCLE
+	}
+	
+	
 	public EditorHandler(MapHandler a_mapHandler, UIHandler a_UIHandler) {
 		currentZoomFactor = 0;
 		camPosX = 0;
 		upPosY = 0;
 		currentZLevel = 0;
+		selectedBrush = brushes.BRUSH;
+		brushSize = new Vector3(2, 2, 0);
 		uiHandler = a_UIHandler;
 		mapHandler = a_mapHandler;
 		currentTileSubsection = new Tile[0][0][0];
@@ -66,8 +78,37 @@ public class EditorHandler {
 		switch(button) {
 
 		case Buttons.LEFT:
-			paintDraging = true;
-			startPosition.set(currentMousePosition);			
+			
+			//creates the Tile to draw onto the map
+			currentTile = new Tile(uiHandler.getCurrentSelectedTextureID(), uiHandler.getCurrentSelectedSideTextureID(), true);
+			
+			switch (selectedBrush) {
+			case BRUSH:
+				
+				startPosition.set(currentMousePosition.sub(brushSize));
+				endPosition.set(currentMousePosition.add(brushSize).add(brushSize));
+				mapHandler.currentMap.convertToInbounds(startPosition);
+				mapHandler.currentMap.convertToInbounds(endPosition);
+				
+				//currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
+				
+				mapHandler.currentMap.fillWithTile(currentTile, startPosition, endPosition);
+				
+				
+				break;
+			case SQUARE:
+				
+				paintDraging = true;
+				startPosition.set(currentMousePosition);
+				
+				break;
+			default:
+				
+				break;
+			}
+			
+			
+						
 			break;
 
 		case Buttons.RIGHT:
@@ -82,17 +123,32 @@ public class EditorHandler {
 		
 		switch (a_button) {
 		case Buttons.LEFT:
-			paintDraging = false;	
-			
-			endPosition.set(currentMousePosition);
+			switch (selectedBrush) {
+			case BRUSH:
+				
+				startPosition.set(currentMousePosition.sub(brushSize));
+				endPosition.set(currentMousePosition.add(brushSize).add(brushSize));
+				mapHandler.currentMap.convertToInbounds(startPosition);
+				mapHandler.currentMap.convertToInbounds(endPosition);
+				
+				//currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
+				
+				mapHandler.currentMap.fillWithTile(currentTile, startPosition, endPosition);
+				
+				break;
+			case SQUARE:
+				
+				paintDraging = false;	
+				
+				endPosition.set(currentMousePosition);
 
-			currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
-			
-			//gets currently selected Tile
-			currentTile = new Tile(uiHandler.getCurrentSelectedTextureID(), uiHandler.getCurrentSelectedSideTextureID(), true);
-			
-			mapHandler.getCurrentMap().fillWithTile(currentTile, startPosition, endPosition);
-			
+				mapHandler.getCurrentMap().fillWithTile(currentTile, startPosition, endPosition);
+				
+				break;
+			default:
+				
+				break;
+			}	
 			break;
 		case Buttons.RIGHT:
 			moveDraging = false;
@@ -142,14 +198,39 @@ public class EditorHandler {
 		
 		mouseMoved(a_screenX, a_screenY);
 		
+		
+		
 		if(moveDraging) {
 			camera.translate((moveTouchX - a_screenX) * camera.zoom, - (moveTouchY - a_screenY) * camera.zoom);
 			moveTouchX = a_screenX;
 			moveTouchY = a_screenY;
 
-		} else if(paintDraging) {
-			
-			
+		} else {
+			switch (selectedBrush) {
+			case BRUSH:
+				
+				startPosition.set(currentMousePosition.sub(brushSize));
+				endPosition.set(currentMousePosition.add(brushSize).add(brushSize));
+				mapHandler.currentMap.convertToInbounds(startPosition);
+				mapHandler.currentMap.convertToInbounds(endPosition);
+				
+				//currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
+				
+				mapHandler.currentMap.fillWithTile(currentTile, startPosition, endPosition);
+				
+				
+				break;
+			case SQUARE:
+				
+				
+				break;
+			case CIRCLE:
+				
+				
+			default:
+				
+				break;
+			}	
 		}
 		return true;
 	}

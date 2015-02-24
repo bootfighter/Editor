@@ -55,7 +55,7 @@ public class UIHandler {
 	}
 	
 	private void initiate() {
-		elementList = new UIElement[5];
+		elementList = new UIElement[6];
 		
 		elementList[0] = new UITextureField(new Texture("background.png"), font, TextureManager.getTileTextureStringList(),
 				TextureManager.getTileTextureList());
@@ -65,6 +65,9 @@ public class UIHandler {
 		elementList[3] = new UIText("x | y | z", font, false);
 
 		elementList[4] = new UITextField(textFieldBackground, font);
+		
+		elementList[5] = new UITextField(textFieldBackground, font);
+		
 		
 		setElementPositions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
@@ -142,6 +145,7 @@ public class UIHandler {
 		}
 		return false;
 	}
+	
 	
 	public void update() {
 		

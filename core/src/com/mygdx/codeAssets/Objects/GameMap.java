@@ -201,6 +201,12 @@ public class GameMap {
 		a_point.x = (a_point.x > dimensionX - 1) ? dimensionX - 1 : a_point.x;
 		a_point.y = (a_point.y > dimensionY - 1) ? dimensionY - 1 : a_point.y;
 		a_point.z = (a_point.z > dimensionZ - 1) ? dimensionZ - 1 : a_point.z;
+		
+		a_point.x = (int)a_point.x;
+		a_point.y = (int)a_point.y;
+		a_point.z = (int)a_point.z;
+		
+		
 		return a_point;
 	}
 	
