@@ -14,12 +14,14 @@ public class MapHandler {
 	GameMap currentMap;
 	GameMap lastMap;
 	GameMap cityMap;
+	
 		
 	public MapHandler() {
 		long time = System.currentTimeMillis();
+		
 		currentMap = new GameMap(GameParameters.mapSizeX, GameParameters.mapSizeY, GameParameters.mapSizeZ);
+		
 		System.out.println("CreationTime: " + (System.currentTimeMillis() - time));
-
 		
 		Tile airTile = new Tile(1, 0, false);
 		
@@ -63,6 +65,7 @@ public class MapHandler {
 			long trans = System.currentTimeMillis();
 			currentMap.calculateTransitions();
 			System.out.println("LoadTime: " + (System.currentTimeMillis() - time) + " transTime: " + (System.currentTimeMillis() - trans));
+			
 		} catch (IOException e) {
 			System.out.println("failed to load");
 			e.printStackTrace();
@@ -83,6 +86,8 @@ public class MapHandler {
 	}
 	
 	public void draw(SpriteBatch a_batch,  float a_zoom, Vector3 a_cameraPosition, int a_currentZLevel){
+		
 		currentMap.draw(a_batch, a_zoom, a_cameraPosition, a_currentZLevel);
+		
 	}
 }

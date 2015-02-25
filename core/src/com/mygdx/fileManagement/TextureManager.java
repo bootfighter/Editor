@@ -14,10 +14,10 @@ public class TextureManager {
 	private static ArrayList<Pixmap> tilePixmapList = new ArrayList<Pixmap>();
 	private static ArrayList<Texture> tileSideTextureList = new ArrayList<Texture>();
 	private static ArrayList<Pixmap> overlayPixmapList = new ArrayList<Pixmap>();
-	
-	
+
 	// ====================== String lists ======================
 	public static ArrayList<String> getTileTextureStringList() {
+		
 		ArrayList<String>  tileTextureList = new ArrayList<String>();
 		
 		tileTextureList.add("missingtxt.png"); //0

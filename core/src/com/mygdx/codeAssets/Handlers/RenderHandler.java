@@ -50,6 +50,7 @@ public class RenderHandler {
 	public void draw() {
 			
 		orthoCamera.update();
+		
 		batch.setProjectionMatrix(orthoCamera.combined);
 	
 		mapHandler.draw(batch, orthoCamera.zoom, orthoCamera.position, editorHandler.getCurrentZLevel());

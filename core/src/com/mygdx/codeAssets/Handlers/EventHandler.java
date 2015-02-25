@@ -17,7 +17,6 @@ public class EventHandler implements InputProcessor {
 		mapHandler = a_mapHandler;
 		uiHandler = a_uiHandler;
 		renderHandler = a_renderHandler;
-//		editorHandler = new EditorHandler(renderHandler.orthoCamera, mapHandler);
 		editorHandler = a_editorHandler;
 		currentMousePos = new Vector2(0,0);
 	}
@@ -50,10 +49,8 @@ public class EventHandler implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		
-		if (!uiHandler.keyDown(keycode)) {
-			if (editorHandler.keyDown(keycode)) {
-				return true;		
-			}
+		if (!uiHandler.keyUp(keycode)) {
+			return true;
 		}
 		
 		return false;

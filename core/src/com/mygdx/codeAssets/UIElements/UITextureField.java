@@ -83,11 +83,13 @@ public class UITextureField extends UIElementClickable {
 			if (isInBounds(a_screenX, a_screenY)) {
 				a_screenY = Gdx.graphics.getHeight() - a_screenY;
 
-				currentID = (int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset);
+				if((int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset) <  textureStringList.size()  && 
+						(int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset) >=  0)
+					currentID = (int)((position.y + startPoint.y + scrollOffset - a_screenY) / listElementOffset);
 				
-				if (currentID > textureStringList.size() - 1 || currentID < 0) {
-					currentID = -1;
-				}
+//				if (currentID > textureStringList.size() - 1 || currentID < 0) {
+//					currentID = -1;
+//				}
 				return true;
 			}
 			break;

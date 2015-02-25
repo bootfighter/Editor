@@ -22,6 +22,7 @@ public class GameMap {
 	private Vector2 drawPoint1;
 	private Vector2 drawPoint2;
 	
+	
 	private ArrayList<int[]> overlayIds;
 	private ArrayList<Texture> overlays;
 	
@@ -35,7 +36,7 @@ public class GameMap {
 		
 		drawPoint1 = new Vector2(0, 0);
 		drawPoint2 = new Vector2(0, 0);
-		
+				
 		if(isPositiv(a_dimensionX, a_dimensionY, a_dimensionZ))
 			tileList = new Tile[dimensionX][dimensionY][dimensionZ];
 		else{
@@ -242,8 +243,6 @@ public class GameMap {
 	
 	public void draw(SpriteBatch a_batch, float a_zoom, Vector3 a_cameraPosition, int currentZLevel) {
 
-		a_batch.begin();
-		
 		drawPoint1.x = (a_cameraPosition.x - ((float)Gdx.graphics.getWidth() / 2) * a_zoom);
 		drawPoint1.y = (a_cameraPosition.y - ((float)Gdx.graphics.getHeight() / 2) * a_zoom);
 		drawPoint2.x = (a_cameraPosition.x + ((float)Gdx.graphics.getWidth() / 2) * a_zoom);
@@ -254,7 +253,13 @@ public class GameMap {
 		drawPoint2.x = Tile.convertWorldSpaceToTileSpace((int)drawPoint2.x) + 5;
 		drawPoint2.y = Tile.convertWorldSpaceToTileSpace((int)drawPoint2.y) + 5;
 
+		int i = 0;
+		
+		
+		a_batch.begin();
 
+		
+		
 		for (int dimZ = 0; dimZ < dimensionZ; dimZ++) {
 			
 			//draws layer above currentZLevel with only 30% opacity
@@ -271,6 +276,8 @@ public class GameMap {
 						//if not air tile (id == 1)
 						if (tileList[dimX][dimY][dimZ].getTextureID() != 1) {
 
+							i++;
+							
 							//normal texture
 							a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
 									(dimZ - currentZLevel) * GameParameters.tileHightOffset);
@@ -293,6 +300,8 @@ public class GameMap {
 		}
 		a_batch.setColor(1, 1, 1, 1);
 		a_batch.end();
+	
+		System.out.println("i: " + i + " calls: " + a_batch.renderCalls);
 	}
 	
 	public Tile[][][] getTiles() {

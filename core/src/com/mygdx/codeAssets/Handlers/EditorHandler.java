@@ -28,7 +28,6 @@ public class EditorHandler {
 	Vector3 drawPoint1;
 	Vector3 drawPoint2;
 	Vector3 currentMousePosition;
-	Tile[][][] currentTileSubsection;
 	Tile currentTile;
 	
 	OrthographicCamera camera;
@@ -50,11 +49,10 @@ public class EditorHandler {
 		camPosX = 0;
 		upPosY = 0;
 		currentZLevel = 0;
-		selectedBrush = brushes.BRUSH;
+		selectedBrush = brushes.SQUARE;
 		brushSize = new Vector3(2, 2, 0);
 		uiHandler = a_UIHandler;
 		mapHandler = a_mapHandler;
-		currentTileSubsection = new Tile[0][0][0];
 		currentTile = new Tile();
 		
 		endPosition = new Vector3(0, 0, 0);
@@ -84,16 +82,7 @@ public class EditorHandler {
 			
 			switch (selectedBrush) {
 			case BRUSH:
-				
-				startPosition.set(currentMousePosition.sub(brushSize));
-				endPosition.set(currentMousePosition.add(brushSize).add(brushSize));
-				mapHandler.currentMap.convertToInbounds(startPosition);
-				mapHandler.currentMap.convertToInbounds(endPosition);
-				
-				//currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
-				
-				mapHandler.currentMap.fillWithTile(currentTile, startPosition, endPosition);
-				
+				paintDraging = true;
 				
 				break;
 			case SQUARE:
@@ -106,16 +95,16 @@ public class EditorHandler {
 				
 				break;
 			}
-			
-			
-						
+									
 			break;
 
 		case Buttons.RIGHT:
+			
 			moveDraging = true;
 			moveTouchX = screenX;
 			moveTouchY = screenY;
 			break;
+			
 		}
 	}
 	
@@ -126,12 +115,17 @@ public class EditorHandler {
 			switch (selectedBrush) {
 			case BRUSH:
 				
-				startPosition.set(currentMousePosition.sub(brushSize));
-				endPosition.set(currentMousePosition.add(brushSize).add(brushSize));
+				paintDraging = false;	
+				
+				startPosition.set(currentMousePosition);
+				endPosition.set(currentMousePosition);
+				
+				startPosition.sub(brushSize);
+				endPosition.add(brushSize).add(brushSize);
+				
 				mapHandler.currentMap.convertToInbounds(startPosition);
 				mapHandler.currentMap.convertToInbounds(endPosition);
 				
-				//currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
 				
 				mapHandler.currentMap.fillWithTile(currentTile, startPosition, endPosition);
 				
@@ -205,20 +199,21 @@ public class EditorHandler {
 			moveTouchX = a_screenX;
 			moveTouchY = a_screenY;
 
-		} else {
+		} else if(paintDraging){
 			switch (selectedBrush) {
 			case BRUSH:
 				
-				startPosition.set(currentMousePosition.sub(brushSize));
-				endPosition.set(currentMousePosition.add(brushSize).add(brushSize));
+				startPosition.set(currentMousePosition);
+				endPosition.set(currentMousePosition);
+				
+				startPosition.sub(brushSize);
+				endPosition.add(brushSize).add(brushSize);
+				
 				mapHandler.currentMap.convertToInbounds(startPosition);
 				mapHandler.currentMap.convertToInbounds(endPosition);
-				
-				//currentTileSubsection = mapHandler.getTileSubsection(startPosition, endPosition);
-				
+								
 				mapHandler.currentMap.fillWithTile(currentTile, startPosition, endPosition);
-				
-				
+
 				break;
 			case SQUARE:
 				
@@ -261,28 +256,24 @@ public class EditorHandler {
 //		drawPoint2.x++;
 //		drawPoint2.y++;
 		mapHandler.getCurrentMap().convertToInbounds(drawPoint2);
-		
+
 		if (paintDraging) {
 			a_batch.begin();
-			
-			a_batch.setColor(1, 1, 1, 0.7f);
-			
-			if (currentTile.getTextureID() != uiHandler.getCurrentSelectedTextureID() || currentTile.getSideTextureID() != uiHandler.getCurrentSelectedSideTextureID()) {
-				currentTile = new Tile(uiHandler.getCurrentSelectedTextureID(), uiHandler.getCurrentSelectedSideTextureID(), true);
-				currentTileSubsection = mapHandler.getTileSubsection(startPosition, currentMousePosition);
-			}
-	
-			for (int posX = 0; posX <= drawPoint2.x - drawPoint1.x; posX++) {
-				for (int posY = 0; posY <= drawPoint2.y - drawPoint1.y; posY++) {
-					
-					a_batch.draw(currentTile.getTexture(), Tile.convertTileSpaceToWorldSpace(posX + (int)drawPoint1.x),
-							Tile.convertTileSpaceToWorldSpace(posY + (int)drawPoint1.y));
-					
-				}
-			}
 
-			a_batch.setColor(1, 1, 1, 1);
-			
+			if(selectedBrush == brushes.SQUARE){
+				a_batch.setColor(1, 1, 1, 0.7f);
+
+				for (int posX = 0; posX <= drawPoint2.x - drawPoint1.x; posX++) {
+					for (int posY = 0; posY <= drawPoint2.y - drawPoint1.y; posY++) {
+
+						a_batch.draw(currentTile.getTexture(), Tile.convertTileSpaceToWorldSpace(posX + (int)drawPoint1.x),
+								Tile.convertTileSpaceToWorldSpace(posY + (int)drawPoint1.y));
+
+					}
+				}
+
+				a_batch.setColor(1, 1, 1, 1);
+			}
 			a_batch.end();
 		}
 	}
