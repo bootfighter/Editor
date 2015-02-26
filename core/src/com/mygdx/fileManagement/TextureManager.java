@@ -37,6 +37,7 @@ public class TextureManager {
  		list.add("stone1.png"); //4
  		list.add("grass2.png"); //5
  		list.add("raster.png"); //6
+ 		list.add("gravel.png"); //7
 		
 		return list;
 	}
@@ -125,42 +126,6 @@ public class TextureManager {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	private static void initTileSideTextureList(){
-	//		ArrayList<String> TileSideTextureStringList = getTileSideTextureStringList();
-//		for (String string : TileSideTextureStringList) {
-//			tileSideTextureList.add(new Texture(GameParameters.sideTextureFolderPath + string));
-//		}
-//	}
-	
-	
-//	public static Texture getTileSideTexture(int a_tileSideTextureID){
-//		if (tileSideTextureList.size() == 0)
-//			initTileSideTextureList();
-//		return tileSideTextureList.get(a_tileSideTextureID);		
-//	}
-//	
-
-//	public static ArrayList<Texture> getTileSideTextureList() {
-//		if (tileSideTextureList.size() == 0)
-//			initTileSideTextureList();
-//		return tileSideTextureList;
-//	}
-	
-	
-	
 	// ====================== Overlay Pixmap Getter ======================
 	private static void initOverlayPixmapList(){
 		ArrayList<String> overlayTextureStringList = getOverlayTextureStringList();
@@ -169,6 +134,7 @@ public class TextureManager {
 		}
 	}
 	
+	
 	public static Pixmap getOverlayPixmap(int a_overlayTextureID){
 		if (overlayPixmapList.size() == 0) 
 			initOverlayPixmapList();
@@ -176,6 +142,7 @@ public class TextureManager {
 	}
 	
 	// ====================== Texture Pixmap Getter ======================
+	
 	
 	private static void initTilePixmapList(){
 		ArrayList<String> tileTextureStringList = getTileTextureStringList();

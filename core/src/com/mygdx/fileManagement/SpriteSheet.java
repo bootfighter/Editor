@@ -30,7 +30,7 @@ public class SpriteSheet{
 	
 	
 	public TextureRegion getSpriteAtIndex(int a_index){
-		spriteSheetTexture.setRegion((a_index % tileDimensionX) * tileSizeX, (a_index / tileDimensionX) * tileSizeY, tileSizeX, tileSizeY);
+		spriteSheetTexture.setRegion((int)(a_index % tileDimensionX) * tileSizeX, (int)(a_index / tileDimensionY) * tileSizeY, tileSizeX, tileSizeY);
 		return spriteSheetTexture;
 	}
 	
@@ -43,7 +43,6 @@ public class SpriteSheet{
 	 * 
 	 * @param a_pixmap Pixmpa of the texture
 	 */
-	
 	public void addSprite(Pixmap a_pixmap){
 		
 		
@@ -56,8 +55,8 @@ public class SpriteSheet{
 		Pixmap spriteSheetPixmap = spriteSheetTexture.getTexture().getTextureData().consumePixmap();
 		
 		//calculating position of new sprite
-		int posX =  numberOfSprites % tileDimensionX;
-		int poxY =  numberOfSprites / tileDimensionX;
+		int posX =  (numberOfSprites % tileDimensionX) * tileSizeX;
+		int poxY =  (numberOfSprites / tileDimensionX) * tileSizeY;
 		
 		for (int dimX = 0; dimX < tileSizeX; dimX++) {
 			for (int dimY = 0; dimY < tileSizeY; dimY++){

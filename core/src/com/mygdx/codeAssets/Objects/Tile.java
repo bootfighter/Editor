@@ -2,7 +2,6 @@ package com.mygdx.codeAssets.Objects;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.Editor.GameParameters;
@@ -10,7 +9,7 @@ import com.mygdx.fileManagement.TextureManager;
 
 public class Tile {
 	
-	private Texture overlay;
+	private int overlay;
 	private int textureID;
 	private int sideTextureID;
 	private ArrayList<CollisionRect> collision_boxes;
@@ -23,7 +22,7 @@ public class Tile {
 	public Tile(int a_txtID, int a_sideTxtID, ArrayList<CollisionRect> a_collision_boxes){
 		textureID = a_txtID;
 		sideTextureID = a_sideTxtID;
-		overlay = null;
+		overlay = 0;
 		collision_boxes = a_collision_boxes;
 	}
 	
@@ -38,7 +37,7 @@ public class Tile {
 		textureID = a_tile.getTextureID();
 		sideTextureID = a_tile.getSideTextureID();
 		collision_boxes = a_tile.getCollision_boxes();
-		overlay = null;
+		overlay = 0;
 	}
 	
 	
@@ -58,8 +57,7 @@ public class Tile {
 	public TextureRegion getSideTexture(){
 		return TextureManager.getTileSideTexture(sideTextureID);
 	}
-	
-	
+		
 	
 	public int getSideTextureID() {
 		return sideTextureID;
@@ -69,11 +67,11 @@ public class Tile {
 		return textureID;
 	}
 	
-	public void setOverlay(Texture a_overlay) {
+	public void setOverlayID(int a_overlay) {
 		overlay = a_overlay;
 	}
 	
-	public Texture getOverlay() {
+	public int getOverlayID() {
 		return overlay;
 	}
 	
