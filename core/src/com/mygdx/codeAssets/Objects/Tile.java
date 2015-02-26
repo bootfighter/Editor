@@ -3,14 +3,13 @@ package com.mygdx.codeAssets.Objects;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.Editor.GameParameters;
 import com.mygdx.fileManagement.TextureManager;
 
 public class Tile {
 	
-	private Texture texture; 
-	private Texture sideTexture;
 	private Texture overlay;
 	private int textureID;
 	private int sideTextureID;
@@ -25,27 +24,17 @@ public class Tile {
 		textureID = a_txtID;
 		sideTextureID = a_sideTxtID;
 		overlay = null;
-		try {
-			texture = TextureManager.getTileTexture(a_txtID);
-			sideTexture = TextureManager.getTileSideTexture(a_sideTxtID);
-		} catch (Exception e) {
-			System.out.println("catched");
-			texture = TextureManager.getTileTexture(0);
-			sideTexture = TextureManager.getTileTexture(0);
-		}
 		collision_boxes = a_collision_boxes;
 	}
 	
 
 	public Tile(int a_txtID, int a_sideTxtID, boolean a_isSolid){
-		this(a_txtID,a_sideTxtID,new ArrayList<CollisionRect>());
+		this(a_txtID, a_sideTxtID, new ArrayList<CollisionRect>());
 		if(a_isSolid)
 			collision_boxes.add(new CollisionRect(0,0,tileSize,tileSize));
 	}
 	
 	public Tile(Tile a_tile) {
-		texture = a_tile.getTexture();
-		sideTexture = a_tile.getSideTexture();
 		textureID = a_tile.getTextureID();
 		sideTextureID = a_tile.getSideTextureID();
 		collision_boxes = a_tile.getCollision_boxes();
@@ -62,12 +51,12 @@ public class Tile {
 		return collision_boxes;
 	}
 	
-	public Texture getTexture(){
-		return texture;
+	public TextureRegion getTexture(){
+		return TextureManager.getTileTexture(textureID);
 	}
 
-	public Texture getSideTexture(){
-		return sideTexture;
+	public TextureRegion getSideTexture(){
+		return TextureManager.getTileSideTexture(sideTextureID);
 	}
 	
 	

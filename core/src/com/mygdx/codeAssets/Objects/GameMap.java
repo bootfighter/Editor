@@ -266,35 +266,54 @@ public class GameMap {
 			if(dimZ > currentZLevel)
 				a_batch.setColor(1, 1, 1, 0.3f);
 			
+			//TileTextures
+			for (int dimX = (int)drawPoint1.x; dimX < drawPoint2.x; dimX++) {
+
+				for (int dimY = (int)drawPoint2.y; dimY > drawPoint1.y; dimY--) {
+					
+					if(isInbounds(dimX, dimY, dimZ)){
+						//if not air tile (id == 1)
+						if (tileList[dimX][dimY][dimZ].getTextureID() != 1) {
+							i++;
+							//normal texture
+							a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
+									(dimZ - currentZLevel) * GameParameters.tileSideTextureHeight);
+						}
+					}
+				}
+			}
+			//Overlays
 			for (int dimX = (int)drawPoint1.x; dimX < drawPoint2.x; dimX++) {
 
 				for (int dimY = (int)drawPoint2.y; dimY > drawPoint1.y; dimY--) {
 
-					
 					if(isInbounds(dimX, dimY, dimZ)){
-						
 						//if not air tile (id == 1)
 						if (tileList[dimX][dimY][dimZ].getTextureID() != 1) {
-
-							i++;
-							
-							//normal texture
-							a_batch.draw(tileList[dimX][dimY][dimZ].getTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
-									(dimZ - currentZLevel) * GameParameters.tileHightOffset);
 							//overlay
 							if(tileList[dimX][dimY][dimZ].getOverlay() != null)
 								a_batch.draw(tileList[dimX][dimY][dimZ].getOverlay(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize +
-										(dimZ - currentZLevel) * GameParameters.tileHightOffset);
+										(dimZ - currentZLevel) * GameParameters.tileSideTextureHeight);
+						}
+					}
+				}
+			}
+			//sideTextures
+			for (int dimX = (int)drawPoint1.x; dimX < drawPoint2.x; dimX++) {
+
+				for (int dimY = (int)drawPoint2.y; dimY > drawPoint1.y; dimY--) {
+					
+					if(isInbounds(dimX, dimY, dimZ)){
+						//if not air tile (id == 1)
+						if (tileList[dimX][dimY][dimZ].getTextureID() != 1) {
 							//side texture
+							//if texture in front of it is air
 							if (dimY > 0 && tileList[dimX][dimY - 1][dimZ].getTextureID() == 1) {
 								a_batch.draw(tileList[dimX][dimY][dimZ].getSideTexture(), dimX * GameParameters.tileSize, dimY * GameParameters.tileSize + 
-										(dimZ - 1 - currentZLevel) * GameParameters.tileHightOffset);
+										(dimZ - 1 - currentZLevel) * GameParameters.tileSideTextureHeight);
 							}
-
 						}
-
 					}
-
 				}
 			}
 		}

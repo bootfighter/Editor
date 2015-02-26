@@ -34,7 +34,7 @@ public class RenderHandler {
 	}
 
 	public boolean zoom(int a_deltaZoom) {
-		if (orthoCamera.zoom + a_deltaZoom * 0.1f <= 4.0f && orthoCamera.zoom + a_deltaZoom * 0.1f >= 0.2f) {
+		if (orthoCamera.zoom + a_deltaZoom * 0.1f <= 4.0f && orthoCamera.zoom + a_deltaZoom * 0.1f >= 0.1f) {
 			orthoCamera.zoom += a_deltaZoom * 0.1f;
 			return true;
 		}

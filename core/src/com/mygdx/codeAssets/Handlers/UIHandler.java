@@ -55,18 +55,20 @@ public class UIHandler {
 	}
 	
 	private void initiate() {
-		elementList = new UIElement[6];
+		elementList = new UIElement[7];
 		
 		elementList[0] = new UITextureField(new Texture("background.png"), font, TextureManager.getTileTextureStringList(),
-				TextureManager.getTileTextureList());
+				TextureManager.getTileTextureSpriteSheet());
 		elementList[1] = new UITextureField(new Texture("background.png"), font, TextureManager.getTileSideTextureStringList(),
-				TextureManager.getTileSideTextureList());
+				TextureManager.getTileSideTextureSpriteSheet());
 		elementList[2] = new UITexture(xyzBackground);
 		elementList[3] = new UIText("x | y | z", font, false);
 
 		elementList[4] = new UITextField(textFieldBackground, font);
 		
 		elementList[5] = new UITextField(textFieldBackground, font);
+		
+		elementList[6] = new UIText("FPS <FPS>", font, false);
 		
 		
 		setElementPositions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -79,6 +81,8 @@ public class UIHandler {
 		elementList[2].setPosition(a_width - elementList[2].getWidth(), 0);
 		elementList[3].setPosition(a_width - elementList[3].getWidth() - 70 , elementList[3].getHeight() + 10);
 		elementList[4].setPosition(a_width - elementList[4].getWidth(), 50);
+		elementList[5].setPosition(0, 0);
+		elementList[6].setPosition(a_width - elementList[6].getWidth(), a_height - elementList[6].getHeight());
 	}
 	
 	public void draw(){
@@ -152,10 +156,8 @@ public class UIHandler {
 		currentSelectedTextureID = ((UITextureField)elementList[0]).getCurrentID();
 		currentSelectedSideTextureID = ((UITextureField)elementList[1]).getCurrentID();
 		
-	}
-
-	public void setPositionCoordinates(Vector3 a_posCoords){
-		((UIText)elementList[3]).setText((int)a_posCoords.x + " | " + (int)a_posCoords.y + " | " + (int)a_posCoords.z);
+		((UIText)elementList[6]).setText("FPS: " + Gdx.graphics.getFramesPerSecond());
+		
 	}
 	
 	public void resize(int a_XSize, int a_YSize) {
@@ -163,6 +165,11 @@ public class UIHandler {
 		normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 		batch.setProjectionMatrix(normalProjection);
 	}
+
+	public void setPositionCoordinates(Vector3 a_posCoords){
+		((UIText)elementList[3]).setText((int)a_posCoords.x + " | " + (int)a_posCoords.y + " | " + (int)a_posCoords.z);
+	}
+	
 	
 	public int getCurrentSelectedTextureID() {
 		return currentSelectedTextureID;

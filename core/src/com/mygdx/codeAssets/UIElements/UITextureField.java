@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.Editor.GameParameters;
+import com.mygdx.fileManagement.SpriteSheet;
 
 public class UITextureField extends UIElementClickable {
 	
 	private ArrayList<String> textureStringList;
 	private Vector2 startPoint;
-	private ArrayList<Texture> textureList;
+	private SpriteSheet spriteSheet;
 	private Texture elementBackground;
 	private int scrollOffset;
 	private BitmapFont font;
@@ -22,10 +23,10 @@ public class UITextureField extends UIElementClickable {
 	private int currentYPos;
 	private int currentID;
 	
-	public UITextureField(Texture a_background, BitmapFont a_font, ArrayList<String> a_stringList, ArrayList<Texture> a_textureList) {
+	public UITextureField(Texture a_background, BitmapFont a_font, ArrayList<String> a_stringList, SpriteSheet a_spriteSheet) {
 		super();
 		textureStringList = a_stringList;
-		textureList = a_textureList;
+		spriteSheet = a_spriteSheet;
 		elementBackground = a_background;
 		width = elementBackground.getWidth();
 		height = elementBackground.getHeight();
@@ -54,7 +55,7 @@ public class UITextureField extends UIElementClickable {
 			currentYPos = (int)(position.y + startPoint.y + scrollOffset - (i * listElementOffset));
 
 			if ( currentYPos < position.y + startPoint.y + listElementOffset && currentYPos > position.y) {
-				a_batch.draw(textureList.get(i), position.x + startPoint.x, currentYPos - GameParameters.tileSize);
+				a_batch.draw(spriteSheet.getSpriteAtIndex(i), position.x + startPoint.x, currentYPos - GameParameters.tileSize);
 				font.draw(a_batch, textureStringList.get(i) , position.x + startPoint.x + 20, currentYPos);
 			}
 		}

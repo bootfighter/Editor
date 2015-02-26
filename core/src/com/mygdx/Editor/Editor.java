@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.mygdx.codeAssets.Handlers.EditorHandler;
 import com.mygdx.codeAssets.Handlers.EventHandler;
 import com.mygdx.codeAssets.Handlers.MapHandler;
@@ -48,8 +47,6 @@ public class Editor extends ApplicationAdapter {
 		
 		renderHandler.draw();
 		uiHandler.update();
-		
-		System.out.println(batch.renderCalls);
 	}
 	
 	@Override

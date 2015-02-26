@@ -4,94 +4,162 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.Editor.GameParameters;
 
 public class TextureManager {
 
 	
-	private static ArrayList<Texture> tileTextureList = new ArrayList<Texture>();
+//	private static ArrayList<Texture> tileTextureList = new ArrayList<Texture>();
 	private static ArrayList<Pixmap> tilePixmapList = new ArrayList<Pixmap>();
-	private static ArrayList<Texture> tileSideTextureList = new ArrayList<Texture>();
+//	private static ArrayList<Texture> tileSideTextureList = new ArrayList<Texture>();
 	private static ArrayList<Pixmap> overlayPixmapList = new ArrayList<Pixmap>();
+	
+	private static ArrayList<String> tileTextureStringList = initTileTextureStringList();
+	private static ArrayList<String> tileSideTextureStringList = initTileSideTextureStringList();
+	private static ArrayList<String> overlayTextureStringList = initOverlayTextureStringList();
+	
+	private static SpriteSheet tileTextureSpriteSheet = initTileTextureSpriteSheet();;
+	private static SpriteSheet tileSideTextureSpriteSheet = initTileSideTextureSpriteSheet();;
+	
 
+			
+			
 	// ====================== String lists ======================
-	public static ArrayList<String> getTileTextureStringList() {
+ 	private static ArrayList<String> initTileTextureStringList() {
 		
-		ArrayList<String>  tileTextureList = new ArrayList<String>();
+ 		 ArrayList<String> list = new ArrayList<String>();
 		
-		tileTextureList.add("missingtxt.png"); //0
-		tileTextureList.add("air.png"); //1
-		tileTextureList.add("dirt.png"); //2
-		tileTextureList.add("grass.png"); //3
-		tileTextureList.add("stone1.png"); //4
-		tileTextureList.add("grass2.png"); //5
-		tileTextureList.add("raster.png"); //6
-		return tileTextureList;
+ 		list.add("missingtxt.png"); //0
+ 		list.add("air.png"); //1
+ 		list.add("dirt.png"); //2
+ 		list.add("grass.png"); //3
+ 		list.add("stone1.png"); //4
+ 		list.add("grass2.png"); //5
+ 		list.add("raster.png"); //6
+		
+		return list;
+	}
+	
+ 	public static ArrayList<String> getTileTextureStringList(){
+ 		return tileTextureStringList;
+ 	}
+ 	
+	
+	private static ArrayList<String> initTileSideTextureStringList(){
+		ArrayList<String> list = new ArrayList<String>();
+		
+		list.add("missingtxt.png");//0
+		list.add("stonewall.png");//1
+
+		return list;
 	}
 	
 	
 	public static ArrayList<String> getTileSideTextureStringList(){
-		ArrayList<String> tileSideTextureList = new ArrayList<String>();
-		
-		tileSideTextureList.add("missingtxt.png");//0
-		tileSideTextureList.add("stonewall.png");//1
+		return tileSideTextureStringList;
+	}
+	
+	private static ArrayList<String> initOverlayTextureStringList(){
+		ArrayList<String> list= new ArrayList<String>();
 
-		return tileSideTextureList;
+		list.add("overlayNorth.png"); //0
+		list.add("overlayEast.png"); //1
+		list.add("overlaySouth.png"); //2
+		list.add("overlayWest.png"); //3
+		
+		
+		return list;
 	}
 	
 	public static ArrayList<String> getOverlayTextureStringList(){
-		ArrayList<String> overlayTextureList= new ArrayList<String>();
-
-		overlayTextureList.add("overlayNorth.png");
-		overlayTextureList.add("overlayEast.png");
-		overlayTextureList.add("overlaySouth.png");
-		overlayTextureList.add("overlayWest.png");
-		
-		return overlayTextureList;
+		return overlayTextureStringList;
 	}
-	
 	
 	// ====================== Tile Texture Getter ======================
-	
-	private static void initTileTextureList(){
-		ArrayList<String> TileTextureStringList = getTileTextureStringList();
-		for (String string : TileTextureStringList) {
-			tileTextureList.add(new Texture(GameParameters.tileFolderPath + string));
-		}
+		
+	private static SpriteSheet initTileTextureSpriteSheet(){
+//		SpriteSheet spriteSheet = new SpriteSheet(new Texture(GameParameters.tileSpriteSheetFolderPath + "TileSpriteSheet.png"), 
+//				numberOfTileTextures, GameParameters.tileSize, GameParameters.tileSize);
+		
+		return SpriteSheetPacker.packSpriteSheet(GameParameters.tileFolderPath, tileTextureStringList, GameParameters.tileSize, GameParameters.tileSize,
+													512, 512);
 	}
 	
-	public static Texture getTileTexture(int a_tileID){
-		if (tileTextureList.size() == 0) 
-			initTileTextureList();
-		return tileTextureList.get(a_tileID);		
+	
+	public static TextureRegion getTileTexture(int a_tileID){
+		return tileTextureSpriteSheet.getSpriteAtIndex(a_tileID);		
 	}
 	
-	public static ArrayList<Texture> getTileTextureList() {
-		if (tileTextureList.size() == 0) 
-			initTileTextureList();
-		return tileTextureList;
+	public static SpriteSheet getTileTextureSpriteSheet(){
+		return tileTextureSpriteSheet;
+	}
+	
+	public static int getNumberOfTileTextures(){
+		return tileTextureSpriteSheet.getNumberOfSprites();
 	}
 	
 	// ====================== Tile Side Texture Getter ======================
-	private static void initTileSideTextureList(){
-		ArrayList<String> TileSideTextureStringList = getTileSideTextureStringList();
-		for (String string : TileSideTextureStringList) {
-			tileSideTextureList.add(new Texture(GameParameters.sideTextureFolderPath + string));
-		}
+
+	private static SpriteSheet initTileSideTextureSpriteSheet(){
+//		SpriteSheet spriteSheet = new SpriteSheet(new Texture(GameParameters.tileSpriteSheetFolderPath + "TileSpriteSheet.png"), 
+//				numberOfTileSideTextures, GameParameters.tileSize, GameParameters.tileHightOffset);
+		
+		return SpriteSheetPacker.packSpriteSheet(GameParameters.sideTextureFolderPath, tileSideTextureStringList, GameParameters.tileSize, GameParameters.tileSideTextureHeight,
+													512, 512);
 	}
 	
-	public static Texture getTileSideTexture(int a_tileSideTextureID){
-		if (tileSideTextureList.size() == 0)
-			initTileSideTextureList();
-		return tileSideTextureList.get(a_tileSideTextureID);		
+	
+	public static TextureRegion getTileSideTexture(int a_tileSideID){
+		return tileSideTextureSpriteSheet.getSpriteAtIndex(a_tileSideID);
 	}
+	
+	public static SpriteSheet getTileSideTextureSpriteSheet(){
+		return tileSideTextureSpriteSheet;
+	}
+	
+	public static int getNumberofTileSideTextures(){
+		return tileSideTextureSpriteSheet.getNumberOfSprites();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	private static void initTileSideTextureList(){
+	//		ArrayList<String> TileSideTextureStringList = getTileSideTextureStringList();
+//		for (String string : TileSideTextureStringList) {
+//			tileSideTextureList.add(new Texture(GameParameters.sideTextureFolderPath + string));
+//		}
+//	}
+	
+	
+//	public static Texture getTileSideTexture(int a_tileSideTextureID){
+//		if (tileSideTextureList.size() == 0)
+//			initTileSideTextureList();
+//		return tileSideTextureList.get(a_tileSideTextureID);		
+//	}
+//	
 
-	public static ArrayList<Texture> getTileSideTextureList() {
-		if (tileSideTextureList.size() == 0)
-			initTileSideTextureList();
-		return tileSideTextureList;
-	}
+//	public static ArrayList<Texture> getTileSideTextureList() {
+//		if (tileSideTextureList.size() == 0)
+//			initTileSideTextureList();
+//		return tileSideTextureList;
+//	}
+	
+	
 	
 	// ====================== Overlay Pixmap Getter ======================
 	private static void initOverlayPixmapList(){
@@ -116,6 +184,7 @@ public class TextureManager {
 			tilePixmapList.add(new Pixmap(Gdx.files.internal(GameParameters.tileFolderPath + string)));
 		}
 	}
+	
 	
 	public static Pixmap getTilePixmap(int a_tilePixmapID){
 		if (tilePixmapList.size() == 0)

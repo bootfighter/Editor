@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpriteSheet{
 	
 	
-	private TextureRegion spriteSheet;
+	private TextureRegion spriteSheetTexture;
 	private int width;
 	private int height;
 	private int numberOfSprites;
@@ -16,10 +16,11 @@ public class SpriteSheet{
 	private int tileDimensionX;
 	private int tileDimensionY;
 	
+	
 	public SpriteSheet(Texture a_spriteSheet, int a_numberOfSprites, int a_tileSizeX, int a_tileSizeY) {
-		spriteSheet = new TextureRegion(a_spriteSheet);
-		width = spriteSheet.getRegionWidth();
-		height = spriteSheet.getRegionHeight();
+		spriteSheetTexture = new TextureRegion(a_spriteSheet);
+		width = spriteSheetTexture.getRegionWidth();
+		height = spriteSheetTexture.getRegionHeight();
 		numberOfSprites = a_numberOfSprites;
 		tileSizeX = a_tileSizeX;
 		tileSizeY = a_tileSizeY;
@@ -27,23 +28,36 @@ public class SpriteSheet{
 		tileDimensionY = height / tileSizeY;
 	}
 	
+	
 	public TextureRegion getSpriteAtIndex(int a_index){
-		spriteSheet.setRegion(tileDimensionX % a_index, tileDimensionX / a_index, tileSizeX, tileSizeY);
-		return spriteSheet;
+		spriteSheetTexture.setRegion((a_index % tileDimensionX) * tileSizeX, (a_index / tileDimensionX) * tileSizeY, tileSizeX, tileSizeY);
+		return spriteSheetTexture;
 	}
 	
+	public int getNumberOfSprites(){
+		return numberOfSprites;
+	}
+	
+	/**adds a texture to the existing texture. ONLY USE DURING RUNTIME!
+	 * 
+	 * 
+	 * @param a_pixmap Pixmpa of the texture
+	 */
+	
 	public void addSprite(Pixmap a_pixmap){
+		
+		
 		
 		if (tileDimensionX * tileDimensionY > numberOfSprites)
 			return;
 		
 		//gets pixmap from existing spritesheet
-		spriteSheet.getTexture().getTextureData().prepare();
-		Pixmap spriteSheetPixmap = spriteSheet.getTexture().getTextureData().consumePixmap();
+		spriteSheetTexture.getTexture().getTextureData().prepare();
+		Pixmap spriteSheetPixmap = spriteSheetTexture.getTexture().getTextureData().consumePixmap();
 		
 		//calculating position of new sprite
-		int posX = tileDimensionX % numberOfSprites;
-		int poxY = tileDimensionX / numberOfSprites;
+		int posX =  numberOfSprites % tileDimensionX;
+		int poxY =  numberOfSprites / tileDimensionX;
 		
 		for (int dimX = 0; dimX < tileSizeX; dimX++) {
 			for (int dimY = 0; dimY < tileSizeY; dimY++){
@@ -55,9 +69,12 @@ public class SpriteSheet{
 			}
 		}
 		
-		spriteSheet.setTexture(new Texture(spriteSheetPixmap));
+		numberOfSprites++;
+		
+		spriteSheetTexture.setTexture(new Texture(spriteSheetPixmap));
 		
 		spriteSheetPixmap.dispose();
 	}
-
+	
+	
 }

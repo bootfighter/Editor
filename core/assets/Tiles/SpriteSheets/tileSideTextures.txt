@@ -1,0 +1,18 @@
+TileSideSpriteSheet.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+missingtxt
+  rotate: false
+  xy: 0, 0
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1
+stonewall
+  rotate: false
+  xy: 16, 0
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1
