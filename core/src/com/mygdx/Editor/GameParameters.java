@@ -4,9 +4,9 @@ package com.mygdx.Editor;
 public class GameParameters {
 	public static final int tileSize = 16;
 	public static final float collisionIteration = 1.0f;
-	public static final int mapSizeX = 10;
-	public static final int mapSizeY = 10;
-	public static final int mapSizeZ = 2;
+	public static final int mapSizeX = 100;
+	public static final int mapSizeY = 100;
+	public static final int mapSizeZ = 5;
 
 	public static final int tileSideTextureHeight = 8;
 	

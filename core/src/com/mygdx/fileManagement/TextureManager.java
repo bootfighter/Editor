@@ -18,6 +18,7 @@ public class TextureManager {
 	private static ArrayList<String> tileTextureStringList = initTileTextureStringList();
 	private static ArrayList<String> tileSideTextureStringList = initTileSideTextureStringList();
 	private static ArrayList<String> overlayTextureStringList = initOverlayTextureStringList();
+	private static ArrayList<String> entityTextureStringList = initEntityTextureStringList();
 	
 	private static SpriteSheet tileTextureSpriteSheet = initTileTextureSpriteSheet();;
 	private static SpriteSheet tileSideTextureSpriteSheet = initTileSideTextureSpriteSheet();;
@@ -77,6 +78,17 @@ public class TextureManager {
 		return overlayTextureStringList;
 	}
 	
+	private static ArrayList<String> initEntityTextureStringList(){
+		ArrayList<String> list= new ArrayList<String>();
+		
+		list.add("baum1.png"); //0
+		
+		return list;
+	}
+	
+	public static ArrayList<String> getEntityTextureStringList(){
+		return entityTextureStringList;
+	}
 	// ====================== Tile Texture Getter ======================
 		
 	private static SpriteSheet initTileTextureSpriteSheet(){
@@ -123,7 +135,9 @@ public class TextureManager {
 		return tileSideTextureSpriteSheet.getNumberOfSprites();
 	}
 	
+	// ====================== Entity Texture Getter ======================
 	
+
 	
 	
 	// ====================== Overlay Pixmap Getter ======================
